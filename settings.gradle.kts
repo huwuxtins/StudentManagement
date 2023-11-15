@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        mavenCentral()
     }
 }
 dependencyResolutionManagement {
@@ -13,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "StudentManagement"
+rootProject.name = "studentmanagement"
 include(":app")
  

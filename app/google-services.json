@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "985666165955",
-    "project_id": "appmobile-student-management",
-    "storage_bucket": "appmobile-student-management.appspot.com"
+    "project_number": "727060617490",
+    "firebase_url": "https://student-management-fcb90-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "student-management-fcb90",
+    "storage_bucket": "student-management-fcb90.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:985666165955:android:36fbdc019405c7f5159676",
+        "mobilesdk_app_id": "1:727060617490:android:12fb02391aa5d9fd163bcb",
         "android_client_info": {
           "package_name": "com.example.studentmanagement"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB1eYAcqFLrQx1ZNZuY6Gtwx_FiKUIk36I"
+          "current_key": "AIzaSyC5RFsxD0LSDhCSXLjeT8E8gOVGtSJLuhk"
         }
       ],
       "services": {

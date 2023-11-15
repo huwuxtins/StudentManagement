@@ -1,52 +1,38 @@
 package com.example.studentmanagement.models;
 
+
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class User {
-    private String name;
-    private String phoneNumber;
-    private String email;
-    private String password;
-    private String age;
+    private int Age;
+    private String Name;
+    private String Phonenumber;
     private Boolean isLocked;
     private String pictureLink;
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return Phonenumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.Phonenumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
+    public int getAge() {
+        return Age;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
+    public void setAge(int age) {
+        this.Age = age;
     }
 
     public Boolean getLocked() {
@@ -66,4 +52,12 @@ public class User {
     }
 
     public User(){}
+
+    public User(int age, String name, String phone_number, Boolean isLocked, String pictureLink) {
+        Age = age;
+        Name = name;
+        Phonenumber = phone_number;
+        this.isLocked = isLocked;
+        this.pictureLink = pictureLink;
+    }
 }
