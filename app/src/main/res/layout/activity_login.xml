@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/appbackground_41_text_symbol"
     tools:context=".Login">
 
 
@@ -11,8 +12,8 @@
         android:id="@+id/txt_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="Login"
+        android:layout_marginTop="36dp"
+        android:text="LOGIN"
         android:textSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +23,15 @@
         android:id="@+id/edt_phonenumber"
         android:layout_width="288dp"
         android:layout_height="51dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="48dp"
+        android:drawableLeft="@drawable/phone"
+        android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Enter phone number"
         android:inputType="phone"
         android:text=""
         app:layout_constraintEnd_toEndOf="@+id/txt_login"
-        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/txt_login"
         app:layout_constraintTop_toBottomOf="@+id/txt_login" />
 
@@ -36,21 +39,37 @@
         android:id="@+id/btn_otp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="48dp"
         android:text="Send OTP"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/edt_phonenumber"
         app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="@+id/edt_phonenumber" />
+        app:layout_constraintStart_toStartOf="@+id/edt_phonenumber"
+        app:layout_constraintTop_toBottomOf="@+id/edt_phonenumber"
+        app:layout_constraintVertical_bias="0.797" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="133dp"
         android:layout_height="151dp"
-        android:layout_marginTop="104dp"
-        app:layout_constraintEnd_toEndOf="@+id/txt_login"
-        app:layout_constraintStart_toStartOf="@+id/txt_login"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/student_management" />
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/student_management_icon_2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="STUDENT MANAGEMENT SYSTEM"
+        android:textColor="#070b87"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

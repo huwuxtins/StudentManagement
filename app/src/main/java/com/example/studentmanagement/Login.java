@@ -47,7 +47,6 @@ public class Login extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-    SharedPreferences sharedPref ;
     List<User> checkList = new ArrayList<>();
 
     FirebaseAuth mAuth;
@@ -68,17 +67,6 @@ public class Login extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
 
-        sharedPref = getApplicationContext().getSharedPreferences("Account", 0);
-
-        String shpPhone  = sharedPref.getString("Phonenumber","null");
-
-        if(shpPhone.equals("null")){
-            //Toast.makeText(Login.this, "No phone", Toast.LENGTH_SHORT).show();
-        }
-        else{  //chuyen activity sang man hinh chinh
-
-
-         }
 
         mAuth =  FirebaseAuth.getInstance();
 
