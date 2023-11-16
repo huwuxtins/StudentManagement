@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -74,12 +75,21 @@ public class MainScreen extends AppCompatActivity {
 
 
         showData();
-        showRole();
+
 
 
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.finishAffinity();
+            return true;
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     public String formatPhone(String s){
         String tmp = s.substring(3,12);
@@ -103,9 +113,9 @@ public class MainScreen extends AppCompatActivity {
                  for(DataSnapshot dt: snapshot.getChildren()){
                      User tmp = dt.getValue(User.class);
                      if(tmp.getPhoneNumber().equals(fphone)){
-
                          txt_phone.setText(tmp.getPhoneNumber());
                          txt_name.setText(tmp.getName());
+                         txt_role.setText(tmp.getRole());
                      }
                  }
              }
@@ -117,26 +127,6 @@ public class MainScreen extends AppCompatActivity {
          });
 
 
-    }
-
-    public void showRole(){
-        myRef = database.getReference("Role");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dt: snapshot.getChildren()){
-                    Role tmp = dt.getValue(Role.class);
-                    if(tmp.getPhonenumber().equals(fphone)){
-                        txt_role.setText(tmp.getRolename());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainScreen.this, "Show role fail", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 

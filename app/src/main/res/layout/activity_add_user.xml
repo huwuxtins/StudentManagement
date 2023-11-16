@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddUser">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/uploadImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="#09bd2d"
+        android:text="Save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRole"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <EditText
+        android:id="@+id/edt_typeName"
+        android:layout_width="378dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="24dp"
+        android:drawableLeft="@drawable/name"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Enter your name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
+
+    <EditText
+        android:id="@+id/edt_typeAge"
+        android:layout_width="378dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:drawableLeft="@drawable/age"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Enter your age"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/edt_typeName"
+        app:layout_constraintStart_toStartOf="@+id/edt_typeName"
+        app:layout_constraintTop_toBottomOf="@+id/edt_typeName" />
+
+    <EditText
+        android:id="@+id/edt_typePhone"
+        android:layout_width="378dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:drawableLeft="@drawable/phone"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Enter your phone number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="@+id/edt_typeAge"
+        app:layout_constraintStart_toStartOf="@+id/edt_typeAge"
+        app:layout_constraintTop_toBottomOf="@+id/edt_typeAge" />
+
+    <Spinner
+        android:id="@+id/chooseRole"
+        android:layout_width="381dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:entries="@array/chooseRole"
+        app:layout_constraintEnd_toEndOf="@+id/edt_typePhone"
+        app:layout_constraintStart_toStartOf="@+id/edt_typePhone"
+        app:layout_constraintTop_toBottomOf="@+id/edt_typePhone" />
+
+    <Button
+        android:id="@+id/btn_chooseAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="#1b09bd"
+        android:text="Choose avatar"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.868"
+        app:layout_constraintStart_toEndOf="@+id/btn_save"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRole"
+        app:layout_constraintVertical_bias="0.15" />
+</androidx.constraintlayout.widget.ConstraintLayout>

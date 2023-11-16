@@ -91,13 +91,13 @@ public class Login extends AppCompatActivity {
                             for(DataSnapshot dt: snapshot.getChildren()){
                                 User us = dt.getValue(User.class);
                                 Log.w("dddd",us.getPhoneNumber());
-                                if(us.getPhoneNumber().equals(phone)){
+                                if(us.getPhoneNumber().equals(phone) && us.getLocked() == false){
                                     checkList.add(us);
                                 }
 
                             }
                             if(checkList.size() == 0){
-                                Toast.makeText(Login.this, "Account does not exist", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Account does not exist or it is blocked", Toast.LENGTH_SHORT).show();
                             }
                             else{
 //                                User tmp = checkList.get(0);

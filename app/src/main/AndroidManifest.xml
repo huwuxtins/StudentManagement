@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Studentmanagement"
         tools:targetApi="31">
+        <activity
+            android:name=".AddUser"
+            android:parentActivityName=".ManageUser"
+            android:exported="true" />
+        <activity
+            android:name=".ManageUser"
+            android:exported="true"
+            android:parentActivityName=".MainScreen" />
         <activity
             android:name=".intro"
             android:exported="true" />
