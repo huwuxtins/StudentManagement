@@ -1,10 +1,14 @@
 package com.example.studentmanagement.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -17,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studentmanagement.AddUser;
 import com.example.studentmanagement.R;
 import com.example.studentmanagement.models.User;
 import com.example.studentmanagement.models.UserSelect;
@@ -94,7 +99,7 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
         }
 
 
-        holder.sw_enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.sw_enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()  {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
@@ -132,7 +137,7 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
         return data.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
 
         CircleImageView avatar;
         TextView userName;
@@ -150,7 +155,36 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
             userRole = itemView.findViewById(R.id.txt_UserRole);
             sw_enable = itemView.findViewById(R.id.sw_enable);
             cb_select = itemView.findViewById(R.id.cb_select);
+            itemView.setOnCreateContextMenuListener(this);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem edit = menu.add(this.getAdapterPosition(),0,getAdapterPosition(),"Edit");
+            edit.setOnMenuItemClickListener(onEditMenu);
+        }
+
+
     }
+
+    private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(@NonNull MenuItem item) {
+            switch (item.getItemId()){
+                case 0:
+                      int index = item.getOrder();
+                      UserSelect ul = data.get(index);
+                      User tmp = ul.getUser();
+                      //Toast.makeText(context,tmp.getName(),Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(context, AddUser.class);
+                        i.putExtra("User", tmp);
+                        i.putExtra("action","edit");
+                        Activity origin = (Activity)context;
+                        origin.startActivityForResult(i, 222);
+                    break;
+            }
+            return true;
+        }
+    };
 
 }

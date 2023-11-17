@@ -19,7 +19,7 @@
         android:id="@+id/txt_UserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="Le Phuong Ngoc"
         android:textSize="20dp"

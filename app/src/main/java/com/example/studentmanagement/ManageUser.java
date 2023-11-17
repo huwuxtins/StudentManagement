@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -99,7 +100,7 @@ public class ManageUser extends AppCompatActivity {
 
         data = new ArrayList<>();
 
-        userAdapter = new UserAdapter(data,getApplicationContext());
+        userAdapter = new UserAdapter(data,ManageUser.this);
         listUser.setLayoutManager(new LinearLayoutManager(this));
         listUser.setAdapter(userAdapter);
 
@@ -115,6 +116,12 @@ public class ManageUser extends AppCompatActivity {
         if(requestCode == 112 && resultCode == RESULT_OK){
             String message = data.getStringExtra("result");
             Toast.makeText(ManageUser.this, message,Toast.LENGTH_LONG).show();
+        }
+        else{
+            if(requestCode == 222){
+                String message = data.getStringExtra("result");
+                Toast.makeText(ManageUser.this, message,Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -143,12 +150,24 @@ public class ManageUser extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { //Sau khi chinh sua User
+                User afterEdit = snapshot.getValue(User.class);
 
+                if(afterEdit == null || data == null || data.isEmpty()){
+                    return;
+                }
+
+                for(int i=0; i< data.size(); i++){
+                    User tmp = data.get(i).getUser();
+                    if(tmp.getPhoneNumber().equals(afterEdit.getPhoneNumber())){
+                        data.set(i,new UserSelect(false,afterEdit));
+                    }
+                }
+                userAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {  //Sau khi xóa User
 
             }
 
@@ -159,7 +178,7 @@ public class ManageUser extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("GetListUser","Failed");
             }
         });
     }

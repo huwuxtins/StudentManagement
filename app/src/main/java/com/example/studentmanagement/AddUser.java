@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,12 +38,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,7 +60,7 @@ public class AddUser extends AppCompatActivity {
     Spinner chooseRole;
     Button btn_save, btn_chooseAvatar;
 
-    String linkImage="avatar.jpg";
+    String linkImage = "avatar.jpg";
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -66,6 +70,8 @@ public class AddUser extends AppCompatActivity {
     FirebaseStorage firebaseStorage;
 
     String action = "";
+
+    User editUser;
 
     private ArrayList<UserSelect> data = new ArrayList<>();
 
@@ -96,6 +102,20 @@ public class AddUser extends AppCompatActivity {
 
          Intent getIntent = getIntent();
          action = getIntent.getStringExtra("action");
+
+
+         if(action.equals("edit")){
+             actionBar.setTitle("Edit user");
+             Intent i = getIntent();
+             editUser  = (User)i.getSerializableExtra("User");
+             edt_typePhone.setText(editUser.getPhoneNumber());
+             edt_typePhone.setEnabled(false);
+             edt_typeName.setText(editUser.getName());
+             edt_typeAge.setText(String.valueOf(editUser.getAge()));
+             linkImage  = editUser.getPictureLink();
+             chooseRole.setSelection(getIndex(chooseRole,editUser.getRole()));
+             showImageEditUser(editUser.getPictureLink());
+         }
 
 
          checkStoragePermission();
@@ -134,6 +154,18 @@ public class AddUser extends AppCompatActivity {
 
                 }
                 else{
+                    String check  = validateInputData(inputName,inputPhone,inputAge);
+                    if(check.equals("OK")){
+                        int age = Integer.parseInt(inputAge);
+                        editUser.setName(inputName);
+                        editUser.setAge(age);
+                        editUser.setRole(role);
+                        editUser.setPictureLink(linkImage);
+                        editUser(editUser);
+                    }
+                    else{
+                        Toast.makeText(AddUser.this, check, Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             }
@@ -141,6 +173,16 @@ public class AddUser extends AppCompatActivity {
 
 
 
+    }
+
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+
+        return 0;
     }
 
 
@@ -172,6 +214,26 @@ public class AddUser extends AppCompatActivity {
         String filename = mCursor.getString(indexedname);
         mCursor.close();
         return filename;
+    }
+
+
+    private void showImageEditUser(String link){
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+link);
+        try {
+            File localFile = File.createTempFile("tmpfile",".jpg");
+            storageReference.getFile(localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            uploadImage.setImageBitmap(bitmap);
+                        }
+                    });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -220,7 +282,7 @@ public class AddUser extends AppCompatActivity {
                 pd.dismiss();
              //   Toast.makeText(AddUser.this,"Account added successfully",Toast.LENGTH_LONG).show();
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("result","Account added successfully");
+                returnIntent.putExtra("result","Successfully");
                 setResult(Activity.RESULT_OK,returnIntent);
                 finish();
             }
@@ -230,7 +292,7 @@ public class AddUser extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     pd.dismiss();
-                    Toast.makeText(AddUser.this,"Account added failed",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddUser.this,"Failed",Toast.LENGTH_LONG).show();
                 }
             })
         .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -279,7 +341,16 @@ public class AddUser extends AppCompatActivity {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("addUser","Complete");
-                            uploadImageToFirebase(imgUri,linkImage);
+                            if(imgUri!=null){
+                                uploadImageToFirebase(imgUri,linkImage);
+                            }
+                            else{
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra("result","Successfully");
+                                setResult(Activity.RESULT_OK,returnIntent);
+                                finish();
+                            }
+
                         }
                     });
 
@@ -292,6 +363,27 @@ public class AddUser extends AppCompatActivity {
         });
 
     }
+
+    public void editUser(User us){
+        database  = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Users/"+us.getPhoneNumber());
+        myRef.updateChildren(us.toMap(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if(imgUri != null){
+                    uploadImageToFirebase(imgUri,linkImage);
+                }
+                else{
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result","Successfully");
+                    setResult(Activity.RESULT_OK,returnIntent);
+                    finish();
+                }
+            }
+        });
+
+    }
+
 
 
 
