@@ -24,7 +24,7 @@
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="60dp"
         android:backgroundTint="#09bd2d"
         android:text="Save"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseRole"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.479" />
 
     <EditText
         android:id="@+id/edt_typeName"
@@ -101,5 +101,29 @@
         app:layout_constraintHorizontal_bias="0.868"
         app:layout_constraintStart_toEndOf="@+id/btn_save"
         app:layout_constraintTop_toBottomOf="@+id/chooseRole"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.479" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRole" />
+
+    <Switch
+        android:id="@+id/sw_enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="276dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/btn_chooseAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRole"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,19 +3,24 @@ package com.example.studentmanagement;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,13 +47,14 @@ public class ManageUser extends AppCompatActivity {
     DatabaseReference myRef;
     Spinner spinner;
 
-    ImageButton btn_add;
+    ImageButton btn_add, btn_del;
 
     private ArrayList<UserSelect> data = new ArrayList<>();
 
     private ArrayList<UserSelect> datatmp = new ArrayList<>();
 
     private UserAdapter userAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class ManageUser extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.role);
 
         btn_add = findViewById(R.id.btn_add);
+        btn_del = findViewById(R.id.btn_del);
 
 
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +96,7 @@ public class ManageUser extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
         });
 
         ActionBar actionBar = getSupportActionBar();
@@ -108,6 +116,88 @@ public class ManageUser extends AppCompatActivity {
         listUser.addItemDecoration(dividerItemDecoration);
 
 
+        btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(userAdapter.getUserSelected() == 0){
+                    Toast.makeText(ManageUser.this, "No user selected", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    DialogdeleteSelected();
+                }
+            }
+        });
+
+
+    }
+
+    public void DialogdeleteSelected(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete selected user");
+        builder.setMessage("Do you want to delete selected user ?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                userAdapter.deleteSelected();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Type phone number to search");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.equals("")){
+                    userAdapter.setData(data);
+                    txt_total.setText("Total: "+String.valueOf(data.size()) +" users");
+                    userAdapter.notifyDataSetChanged();
+                }
+                else{
+                    searchUser(newText);
+                }
+
+               return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    private void searchUser(String key){
+        if(datatmp.size() !=0){
+            datatmp.clear();
+        }
+        for(UserSelect us : data){
+            User tmp = us.getUser();
+            if(tmp.getPhoneNumber().equals(key)){
+                datatmp.add(us);
+            }
+        }
+
+        userAdapter.setData(datatmp);
+        txt_total.setText("Total: "+String.valueOf(datatmp.size()) +" users");
+        userAdapter.notifyDataSetChanged();
     }
 
     @Override

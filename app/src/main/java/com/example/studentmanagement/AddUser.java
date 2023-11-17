@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class AddUser extends AppCompatActivity {
     CircleImageView uploadImage;
     TextView edt_typeName, edt_typeAge, edt_typePhone;
 
+    Switch sw_enable;
     Spinner chooseRole;
     Button btn_save, btn_chooseAvatar;
 
@@ -99,6 +101,7 @@ public class AddUser extends AppCompatActivity {
          chooseRole = findViewById(R.id.chooseRole);
          btn_save = findViewById(R.id.btn_save);
          btn_chooseAvatar = findViewById(R.id.btn_chooseAvatar);
+         sw_enable = findViewById(R.id.sw_enable);
 
          Intent getIntent = getIntent();
          action = getIntent.getStringExtra("action");
@@ -112,6 +115,12 @@ public class AddUser extends AppCompatActivity {
              edt_typePhone.setEnabled(false);
              edt_typeName.setText(editUser.getName());
              edt_typeAge.setText(String.valueOf(editUser.getAge()));
+             if(editUser.getLocked()){
+                 sw_enable.setChecked(false);
+             }
+             else{
+                 sw_enable.setChecked(true);
+             }
              linkImage  = editUser.getPictureLink();
              chooseRole.setSelection(getIndex(chooseRole,editUser.getRole()));
              showImageEditUser(editUser.getPictureLink());
@@ -141,12 +150,18 @@ public class AddUser extends AppCompatActivity {
 
                 String role = chooseRole.getSelectedItem().toString();
 
+                boolean block = true;
+
+                if(sw_enable.isChecked()){
+                    block = false;
+                }
+
 
                 if(action.equals("add")){
                     String check  = validateInputData(inputName,inputPhone,inputAge);
                     if(check.equals("OK")){
                         int age = Integer.parseInt(inputAge);
-                        addNewUser(inputName,inputPhone,age,linkImage,role);
+                        addNewUser(inputName,inputPhone,age,linkImage,role,block);
                     }
                     else{
                         Toast.makeText(AddUser.this, check, Toast.LENGTH_SHORT).show();
@@ -161,6 +176,7 @@ public class AddUser extends AppCompatActivity {
                         editUser.setAge(age);
                         editUser.setRole(role);
                         editUser.setPictureLink(linkImage);
+                        editUser.setLocked(block);
                         editUser(editUser);
                     }
                     else{
@@ -324,7 +340,7 @@ public class AddUser extends AppCompatActivity {
 //
 //    }
 
-        public void addNewUser(String name, String phone, int age, String imageLink, String role){
+        public void addNewUser(String name, String phone, int age, String imageLink, String role, boolean block){
 
         database  = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users/"+phone);
@@ -335,7 +351,7 @@ public class AddUser extends AppCompatActivity {
                 if (snapshot.exists()) {
                     Toast.makeText(AddUser.this,"Phone number already exists",Toast.LENGTH_LONG).show();
                 } else {
-                    User user = new User(age,name,phone,false,imageLink,role);
+                    User user = new User(age,name,phone,block,imageLink,role);
                     myRef = database.getReference("Users");
                     myRef.child(phone).setValue(user, new DatabaseReference.CompletionListener() {
                         @Override

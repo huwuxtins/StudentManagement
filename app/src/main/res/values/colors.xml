@@ -5,4 +5,5 @@
     <color name="blueDam">#070b87</color>
     <color name="toolbarManageUser">#00796B</color>
     <color name="btnAdd">#3E0EBA</color>
+    <color name="btnDel">#f51911</color>
 </resources>

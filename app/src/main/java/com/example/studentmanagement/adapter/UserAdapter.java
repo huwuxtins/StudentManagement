@@ -74,14 +74,13 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
         holder.userPhone.setText(tmp.getPhoneNumber());
         holder.userRole.setText(tmp.getRole());
 
-        Log.w("enable", String.valueOf(tmp.getLocked()));
 
-        if(tmp.getLocked()){
-            holder.sw_enable.setChecked(false);
-        }
-        else{
-            holder.sw_enable.setChecked(true);
-        }
+//        if(tmp.getLocked()){
+//            holder.sw_enable.setChecked(false);
+//        }
+//        else{
+//            holder.sw_enable.setChecked(true);
+//        }
 
         storageReference = FirebaseStorage.getInstance().getReference("images/"+tmp.getPictureLink());
         try {
@@ -100,26 +99,34 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
         }
 
 
-        holder.sw_enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()  {
+//        holder.sw_enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()  {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    tmp.setLocked(false);
+//                }
+//                else{
+//                    tmp.setLocked(true);
+//                }
+//
+//                database = FirebaseDatabase.getInstance();
+//                myRef = database.getReference("Users");
+//
+//                myRef.child(tmp.getPhoneNumber()).updateChildren(tmp.toMap(), new DatabaseReference.CompletionListener() {
+//                    @Override
+//                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                        notifyItemChanged(position);
+//                    }
+//                });
+//
+//            }
+//        });
+
+
+        holder.cb_select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    tmp.setLocked(false);
-                }
-                else{
-                    tmp.setLocked(true);
-                }
-
-                database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("Users");
-
-                myRef.child(tmp.getPhoneNumber()).updateChildren(tmp.toMap(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        notifyItemChanged(position);
-                    }
-                });
-
+                usl.setSelected(isChecked);
             }
         });
 
@@ -156,7 +163,6 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
         TextView userName;
         TextView userPhone;
         TextView userRole;
-        Switch sw_enable;
         CheckBox cb_select;
 
 
@@ -166,7 +172,6 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
             userName = itemView.findViewById(R.id.txt_UserName);
             userPhone = itemView.findViewById(R.id.txt_UserPhone);
             userRole = itemView.findViewById(R.id.txt_UserRole);
-            sw_enable = itemView.findViewById(R.id.sw_enable);
             cb_select = itemView.findViewById(R.id.cb_select);
             itemView.setOnCreateContextMenuListener(this);
         }
@@ -199,5 +204,32 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
             return true;
         }
     };
+
+    public int getUserSelected(){
+        int count = 0;
+        int i =0;
+        while(i<data.size()){
+            if(data.get(i).getSelected()){
+               count++;
+            }
+            i++;
+        }
+        return count;
+    }
+
+
+    public void deleteSelected(){ //xu ly xoa
+        int i =0;
+        while(i<data.size()){
+            if(data.get(i).getSelected()){
+                data.remove(i);
+                notifyItemRemoved(i);
+            }
+            else{
+                i++;
+            }
+        }
+
+    }
 
 }
