@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,9 +16,13 @@
         android:theme="@style/Theme.Studentmanagement"
         tools:targetApi="31">
         <activity
-            android:name=".AddUser"
+            android:name=".UserDetail"
             android:parentActivityName=".ManageUser"
             android:exported="true" />
+        <activity
+            android:name=".AddUser"
+            android:exported="true"
+            android:parentActivityName=".ManageUser" />
         <activity
             android:name=".ManageUser"
             android:exported="true"

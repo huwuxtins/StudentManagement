@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentmanagement.AddUser;
 import com.example.studentmanagement.R;
+import com.example.studentmanagement.UserDetail;
 import com.example.studentmanagement.models.User;
 import com.example.studentmanagement.models.UserSelect;
 import com.google.android.gms.auth.api.signin.internal.Storage;
@@ -118,6 +119,18 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
                         notifyItemChanged(position);
                     }
                 });
+
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User temp = data.get(position).getUser();
+                Intent i = new Intent(context, UserDetail.class);
+                i.putExtra("User",temp);
+                Activity origin = (Activity)context;
+                origin.startActivity(i);
 
             }
         });

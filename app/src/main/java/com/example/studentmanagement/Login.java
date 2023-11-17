@@ -59,7 +59,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         edt_phoneNumber = findViewById(R.id.edt_phonenumber);
         btn_otp = findViewById(R.id.btn_otp);

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
+import com.example.studentmanagement.models.LoginHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -24,7 +26,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 public class enterlogin extends AppCompatActivity {
@@ -40,7 +49,17 @@ public class enterlogin extends AppCompatActivity {
 
     FirebaseAuth mAuth;
 
+
+    String dateTime ;
+    String fphone ;
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
     PhoneAuthProvider.ForceResendingToken mforceResendingToken;
+
+
+    long maxId = 0;
 
 
     @Override
@@ -48,10 +67,18 @@ public class enterlogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enterlogin);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         pinview = findViewById(R.id.pinview);
         btn_enter = findViewById(R.id.show_otp);
         txt_sendAgain = findViewById(R.id.txt_sendAgain);
         mAuth = FirebaseAuth.getInstance();
+
+
+        myRef = FirebaseDatabase.getInstance().getReference("LoginHistory");
+
 
         getData();
 
@@ -74,9 +101,16 @@ public class enterlogin extends AppCompatActivity {
 
     }
 
+    public String formatPhone(String s){
+        String tmp = s.substring(3,12);
+        return "0"+tmp;
+    }
+
+
 
     public void getData(){
             phone = getIntent().getStringExtra("Phonenumber");
+            fphone = formatPhone(phone);
             verificationid = getIntent().getStringExtra("Verificationid");
     }
 
@@ -93,6 +127,7 @@ public class enterlogin extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
+                            saveHistory();
                             goToMain(user.getPhoneNumber());
 
                         } else {
@@ -104,6 +139,26 @@ public class enterlogin extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+
+
+    private void saveHistory() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YYYY");
+            DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("HHmmssddMMYYYY");
+            LocalDateTime now = LocalDateTime.now();
+            dateTime = dtf.format(now).toString();
+            String id = dtf2.format(now).toString();
+            LoginHistory newHis = new LoginHistory(fphone,dateTime);
+            myRef.child(id).setValue(newHis);
+
+        }
+
+    }
+
+    private void setMaxId(long mid){
+        this.maxId = mid;
     }
 
     private void goToMain(String phoneNumber) {

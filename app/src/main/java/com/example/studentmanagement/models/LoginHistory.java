@@ -1,26 +1,34 @@
 package com.example.studentmanagement.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LoginHistory {
-    private Date loginDate;
-    private String email;
+public class LoginHistory implements Serializable {
 
-    public Date getLoginDate() {
-        return loginDate;
+    private String phoneNumber;
+    private String dateTime;
+
+    public LoginHistory() {
     }
 
-    public void setLoginDate(Date loginDate) {
-        this.loginDate = loginDate;
+    public LoginHistory(String phoneNumber, String dateTime) {
+        this.phoneNumber = phoneNumber;
+        this.dateTime = dateTime;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public LoginHistory(){}
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
 }
