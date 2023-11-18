@@ -219,9 +219,13 @@ public class UserAdapter   extends RecyclerView.Adapter <UserAdapter.RecyclerVie
 
 
     public void deleteSelected(){ //xu ly xoa
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Users");
         int i =0;
         while(i<data.size()){
             if(data.get(i).getSelected()){
+                User tmpus = data.get(i).getUser();
+                myRef.child(tmpus.getPhoneNumber()).removeValue();
                 data.remove(i);
                 notifyItemRemoved(i);
             }

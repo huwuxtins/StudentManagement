@@ -258,6 +258,20 @@ public class ManageUser extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {  //Sau khi xóa User
+                User afterRemo = snapshot.getValue(User.class);
+
+                if(afterRemo == null || data == null || data.isEmpty()){
+                    return;
+                }
+                for(int i=0; i< data.size(); i++){
+                    User tmp = data.get(i).getUser();
+                    if(tmp.getPhoneNumber().equals(afterRemo.getPhoneNumber())){
+                        data.remove(data.get(i));
+                        break;
+                    }
+                }
+
+                setTotal();
 
             }
 
