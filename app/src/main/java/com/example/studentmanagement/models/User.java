@@ -1,13 +1,56 @@
 package com.example.studentmanagement.models;
 
-public class User {
+
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.io.Serializable;
+
+@IgnoreExtraProperties
+@SuppressWarnings("serial")
+public class User implements Serializable {
+    private int age;
     private String name;
     private String phoneNumber;
-    private String email;
-    private String password;
-    private String age;
-    private Boolean isLocked;
+    private Boolean locked;
     private String pictureLink;
+
+    private String role;
+
+
+
+    public User(){}
+
+    public User(int age, String name, String phonenumber, Boolean isLocked, String pictureLink, String role) {
+        this.age = age;
+        this.name = name;
+        this.phoneNumber = phonenumber;
+        this.locked = isLocked;
+        this.pictureLink = pictureLink;
+        this.role = role;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("age", this.age);
+        result.put("name", this.name);
+        result.put("phoneNumber", this.phoneNumber);
+        result.put("locked",this.locked);
+        result.put("pictureLink",this.pictureLink);
+        result.put("role",this.role);
+        return result;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getName() {
         return name;
@@ -25,36 +68,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
     public Boolean getLocked() {
-        return isLocked;
+        return locked;
     }
 
     public void setLocked(Boolean locked) {
-        isLocked = locked;
+        this.locked = locked;
     }
 
     public String getPictureLink() {
@@ -65,5 +84,11 @@ public class User {
         this.pictureLink = pictureLink;
     }
 
-    public User(){}
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

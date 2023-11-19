@@ -6,4 +6,19 @@
     <string name="nav_title_man_user">Users</string>
     <string name="nav_title_man_stu">Students</string>
     <string name="nav_title_logout">Logout</string>
+    <string name="app_name">studentmanagement</string>
+
+    <string-array name="role">
+        <item>All</item>
+        <item>Admin</item>
+        <item>Manager</item>
+        <item>Employee</item>
+    </string-array>
+
+    <string-array name="chooseRole">
+        <item>Admin</item>
+        <item>Manager</item>
+        <item>Employee</item>
+    </string-array>
+
 </resources>
