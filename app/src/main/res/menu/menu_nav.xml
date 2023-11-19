@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/it_home"
+        android:title="@string/nav_title_home"
+        android:icon="@drawable/icon_home"/>
+    <item
+        android:id="@+id/it_users"
+        android:title="@string/nav_title_man_user"
+        android:icon="@drawable/icon_user"/>
+    <item
+        android:id="@+id/it_stu"
+        android:title="@string/nav_title_man_stu"
+        android:icon="@drawable/icon_student"/>
+    <item
+        android:id="@+id/it_logout"
+        android:title="@string/nav_title_logout"
+        android:icon="@drawable/icon_logout"/>
+</menu>

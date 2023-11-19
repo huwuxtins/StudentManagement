@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+            android:id="@+id/img_view_ava"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_default_avatar"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_student_id"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Student Id"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@+id/cv_image"
+        app:layout_constraintStart_toEndOf="@+id/cv_image"/>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_student_id"
+        app:layout_constraintStart_toEndOf="@+id/cv_image"/>
+    <TextView
+        android:id="@+id/tv_gender"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toEndOf="@+id/cv_image"/>
+
+    <TextView
+        android:id="@+id/tv_class"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:text="Class"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/cv_image"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_faculties"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:text="Faculties"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/cv_image"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_phone_number"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:text="Phone number"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_class"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_bod"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:text="Birthday"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_faculties"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_certificates"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bod"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/rcv_certificates"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
