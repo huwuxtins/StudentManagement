@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,56 +25,56 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/image_default_avatar"/>
         </androidx.cardview.widget.CardView>
-        <TextView
+        <EditText
             android:id="@+id/tv_name"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:hint="Name"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/cv_image"
             app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
+        <EditText
             android:id="@+id/tv_gender"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:text="Gender"
+            android:hint="Gender"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             app:layout_constraintTop_toBottomOf="@+id/cv_image"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tv_class"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:text="Class"
+            android:hint="Class"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_name"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tv_faculties"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:text="Faculties"
+            android:hint="Faculties"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_gender"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tv_phone_number"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:text="Phone number"
+            android:hint="Phone number"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_class"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tv_bod"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:text="Birthday"
+            android:hint="Birthday"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_faculties"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -81,19 +82,32 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_certificates"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="200dp"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_bod"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/icon_plus"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@id/rcv_certificates"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <Button
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/rcv_certificates"
+            android:backgroundTint="#1C9700"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_add"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
