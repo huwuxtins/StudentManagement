@@ -53,6 +53,8 @@ public class Login extends AppCompatActivity {
 
     String phone;
 
+    String formatPhone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,6 @@ public class Login extends AppCompatActivity {
 
 
         mAuth =  FirebaseAuth.getInstance();
-
         btn_otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +84,7 @@ public class Login extends AppCompatActivity {
                 else {
 
                     String tmp  = phone.substring(1,10);
-                    String formatPhone = "+84"+tmp;
+                    formatPhone = "+84"+tmp;
 
                     checkList.clear();
 
@@ -140,12 +141,13 @@ public class Login extends AppCompatActivity {
                         .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                             @Override
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                signInWithPhoneAuthCredential(phoneAuthCredential);
+                               // signInWithPhoneAuthCredential(phoneAuthCredential);
                             }
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Toast.makeText(Login.this,"Verification Failed", Toast.LENGTH_SHORT).show();
+                                Log.w("excepSend",e.toString());
+                                Toast.makeText(Login.this,"Verification Failed to " + formatPhone, Toast.LENGTH_SHORT).show();
                             }
 
                             @Override

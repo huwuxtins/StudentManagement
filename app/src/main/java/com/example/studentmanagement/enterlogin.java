@@ -81,11 +81,13 @@ public class enterlogin extends AppCompatActivity {
 
 
         getData();
+        
 
         btn_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String otp = pinview.getText().toString();
+                Log.w("otppp",otp);
                 sendVerifyOTP(otp);
             }
         });
@@ -112,6 +114,8 @@ public class enterlogin extends AppCompatActivity {
             phone = getIntent().getStringExtra("Phonenumber");
             fphone = formatPhone(phone);
             verificationid = getIntent().getStringExtra("Verificationid");
+
+
     }
 
     public void sendVerifyOTP(String otp){
@@ -132,9 +136,9 @@ public class enterlogin extends AppCompatActivity {
 
                         } else {
                             // Sign in failed, display a message and update the UI
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(enterlogin.this,"The verification code entered was invalid", Toast.LENGTH_SHORT).show();
+                                Log.w(TAG, "signInWithCredential:failure", task.getException());
                             }
                         }
                     }
