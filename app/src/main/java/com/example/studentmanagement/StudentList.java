@@ -40,15 +40,15 @@ public class StudentList extends AppCompatActivity {
         studentAdapter = new StudentAdapter(this, list);
         recyclerView.setAdapter(studentAdapter);
 
-        database.addChildEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+        database.addValueEventListener(new ValueEventListener(){
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Student student = dataSnapshot.getValue(Student.class);
                     list.add(student);
                 }
-                StudentAdapter.notifyDataSetChanged();
+                studentAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -56,5 +56,6 @@ public class StudentList extends AppCompatActivity {
 
             }
         });
+
     }
 }

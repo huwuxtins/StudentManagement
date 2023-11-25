@@ -29,16 +29,17 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     @NonNull
     @Override
     public StudentAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.activity_item_student,parent,false);
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Student student = list.get(position);
         holder.name.setText(student.getName());
-        holder.id.setText(student.getId());
+        holder.id.setText(String.valueOf(student.getId()));
     }
+
 
     @Override
     public int getItemCount() {
@@ -46,20 +47,17 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     }
 
     public static class MyViewHoler extends RecyclerView.ViewHolder{
-
-        TextView StudentName, StudentID;
+        TextView name, id;
         public MyViewHoler(@NonNull View itemView) {
             super(itemView);
 
-            StudentName = itemView.findViewById(R.id.tvStudentName);
-            StudentID = itemView.findViewById(R.id.tvStudentID);
+            name = itemView.findViewById(R.id.tvStudentName);
+            id = itemView.findViewById(R.id.tvStudentID);
         }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public Object name;
-        public BreakIterator id;
-
+        TextView name, id;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
         }
