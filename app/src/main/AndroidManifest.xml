@@ -16,9 +16,12 @@
         android:theme="@style/Theme.Studentmanagement"
         tools:targetApi="31">
         <activity
+            android:name=".StudentList"
+            android:exported="false" />
+        <activity
             android:name=".UserDetail"
-            android:parentActivityName=".ManageUser"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".ManageUser" />
         <activity
             android:name=".AddUser"
             android:exported="true"
