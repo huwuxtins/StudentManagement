@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.studentmanagement.adapter.StudentAdapter;
 import com.example.studentmanagement.models.Student;
@@ -40,14 +41,14 @@ public class StudentList extends AppCompatActivity {
         studentAdapter = new StudentAdapter(this, list);
         recyclerView.setAdapter(studentAdapter);
 
-        database.addValueEventListener(new ValueEventListener(){
-
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Student student = dataSnapshot.getValue(Student.class);
                     list.add(student);
                 }
+                Log.d("StudentList", "List size: " + list.size());
                 studentAdapter.notifyDataSetChanged();
             }
 

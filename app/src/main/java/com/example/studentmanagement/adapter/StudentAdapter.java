@@ -46,9 +46,9 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         return list.size();
     }
 
-    public static class MyViewHoler extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name, id;
-        public MyViewHoler(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.tvStudentName);
@@ -56,10 +56,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         }
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, id;
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-    }
+//    public class MyViewHolder extends RecyclerView.ViewHolder {
+//        TextView name, id;
+//        public MyViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//        }
+//    }
 }
