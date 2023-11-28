@@ -5,17 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StudentList">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbListStudent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Student List"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student List"
+            android:textSize="30dp"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+
+
         <ImageButton
+            android:id="@+id/iamgeButtonSearchStudent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -28,36 +38,41 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/studentList"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="580dp"
+        android:layout_height="500dp"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="56dp" />
 
     <ImageButton
+        android:id="@+id/imageButtonAddStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="85dp"
+        android:layout_marginStart="96dp"
         android:background="@drawable/button_add"
         android:src="@drawable/add_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/studentList"
+        app:layout_constraintVertical_bias="0.104"
         tools:ignore="MissingConstraints">
 
     </ImageButton>
 
     <ImageButton
+        android:id="@+id/imageButtonDeleteStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="85dp"
+        android:layout_marginEnd="100dp"
         android:background="@drawable/btn_delete"
         android:src="@drawable/baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/studentList"
+        app:layout_constraintVertical_bias="0.104"
         tools:ignore="MissingConstraints">
 
     </ImageButton>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

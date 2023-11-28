@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.studentmanagement.adapter.StudentAdapter;
 import com.example.studentmanagement.models.Student;
@@ -20,35 +19,37 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class StudentList extends AppCompatActivity {
-
     RecyclerView recyclerView;
-    DatabaseReference database;
-    StudentAdapter studentAdapter;
     ArrayList<Student> list;
+    DatabaseReference databaseReference;
+    StudentAdapter studentAdapter;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(StudentList.this, AddStudent.class));
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_list2);
+        setContentView(R.layout.activity_student_list);
 
-        recyclerView = findViewById(R.id.studentList);
-        database = FirebaseDatabase.getInstance().getReference("Students");
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerView = findViewById(R.id.recyclerview);
+        databaseReference = FirebaseDatabase.getInstance().getReference("students");
         list = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         studentAdapter = new StudentAdapter(this, list);
         recyclerView.setAdapter(studentAdapter);
 
-        database.addValueEventListener(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Student student = dataSnapshot.getValue(Student.class);
                     list.add(student);
                 }
-                Log.d("StudentList", "List size: " + list.size());
                 studentAdapter.notifyDataSetChanged();
             }
 
@@ -57,6 +58,7 @@ public class StudentList extends AppCompatActivity {
 
             }
         });
+
 
     }
 }

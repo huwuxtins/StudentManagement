@@ -1,108 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".models.addStudent">
+    tools:context=".AddStudent"
+    android:layout_margin="10dp">
 
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="50dp"
+        android:text="Add Student"
+        android:textSize="26dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        />
+    <ImageView
+        android:id="@+id/imageViewStudent"
         android:src="@drawable/icon_student"
-        app:layout_constraintBottom_toTopOf="@+id/edtStudentName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.34"
-        tools:ignore="MissingConstraints">
-
-    </ImageView>
+        android:layout_below="@+id/text"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
 
     <EditText
-        android:id="@+id/edtStudentName"
-        android:layout_width="378dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="20dp"
+        android:id="@+id/edtName"
         android:drawableLeft="@drawable/name"
         android:drawablePadding="10dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:hint="Enter your name"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="192dp">
-    </EditText>
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/imageViewStudent"
+        android:textSize="20dp" />
     <EditText
-        android:id="@+id/edtClassName"
-        android:layout_width="378dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/baseline_class_24"
+        android:id="@+id/edtEmail"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/baseline_email_24"
         android:drawablePadding="10dp"
-        android:hint="Enter your class name"
-        app:layout_constraintTop_toBottomOf="@+id/edtFaculties"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp">
+        android:hint="Enter your email"
+        android:layout_centerHorizontal="true"
 
-    </EditText>
-
-    <EditText
-        android:id="@+id/edtFaculties"
-        android:layout_width="378dp"
-        android:layout_height="46dp"
         android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/baseline_faculties_24"
-        android:drawablePadding="10dp"
-        android:hint="Enter your faculties"
-        app:layout_constraintTop_toBottomOf="@+id/edtStudentName"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp">
-
-    </EditText>
-
-    <EditText
-        android:id="@+id/edtStudentID"
-        android:layout_width="378dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/baseline_id_24"
-        android:drawablePadding="10dp"
-        android:hint="Enter your ID"
-        app:layout_constraintTop_toBottomOf="@+id/edtClassName"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp">
-
-    </EditText>
-
+        android:layout_below="@+id/edtName"
+        android:textSize="20dp" />
     <EditText
         android:id="@+id/edtPhone"
-        android:layout_width="378dp"
-        android:layout_height="46dp"
-        android:drawableLeft="@drawable/phone"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:drawablePadding="10dp"
-        android:layout_marginTop="20dp"
-        android:hint="Enter your phone number"
-        app:layout_constraintTop_toBottomOf="@+id/edtStudentID"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp">
+        android:drawableLeft="@drawable/phone"
+        android:hint="Enter your phone"
+        android:layout_centerHorizontal="true"
 
-    </EditText>
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/edtEmail"
+        android:textSize="20dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="128dp"
+        android:id="@+id/btnAddStudent"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/edtPhone"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
         android:background="#09bd2d"
-        android:text="ADD"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPhone"
-        tools:ignore="MissingConstraints">
+        android:text="ADD"/>
+    <Button
+        android:id="@+id/btnViewListStudent"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btnAddStudent"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="#09bd2d"
+        android:text="View"/>
 
-    </Button>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

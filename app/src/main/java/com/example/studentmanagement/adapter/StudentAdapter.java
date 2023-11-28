@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studentmanagement.R;
 import com.example.studentmanagement.models.Student;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHolder> {
 
     Context context;
-
     ArrayList<Student> list;
 
     public StudentAdapter(Context context, ArrayList<Student> list) {
@@ -28,8 +26,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
 
     @NonNull
     @Override
-    public StudentAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.activity_item_student,parent,false);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.item_student_view, parent,false);
         return new MyViewHolder(v);
     }
 
@@ -37,9 +35,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Student student = list.get(position);
         holder.name.setText(student.getName());
-        holder.id.setText(String.valueOf(student.getId()));
     }
-
 
     @Override
     public int getItemCount() {
@@ -47,19 +43,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView name, id;
+        TextView name;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            name = itemView.findViewById(R.id.tvStudentName);
-            id = itemView.findViewById(R.id.tvStudentID);
+            name = itemView.findViewById(R.id.textname);
         }
     }
-
-//    public class MyViewHolder extends RecyclerView.ViewHolder {
-//        TextView name, id;
-//        public MyViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//        }
-//    }
 }
