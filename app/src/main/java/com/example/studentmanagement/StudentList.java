@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.studentmanagement.adapter.StudentAdapter;
 import com.example.studentmanagement.models.Student;
@@ -42,6 +44,7 @@ public class StudentList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         studentAdapter = new StudentAdapter(this, list);
         recyclerView.setAdapter(studentAdapter);
+        ImageButton addButton = findViewById(R.id.imageButtonAddStudent);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,6 +59,14 @@ public class StudentList extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the AddStudent activity when the button is clicked
+                Intent intent = new Intent(StudentList.this, AddStudent.class);
+                startActivity(intent);
             }
         });
 
