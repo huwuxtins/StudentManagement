@@ -1,17 +1,24 @@
     package com.example.studentmanagement.controllers;
 
+    import android.util.Base64;
     import android.util.Log;
 
     import androidx.annotation.NonNull;
 
+    import com.example.studentmanagement.models.Certificate;
     import com.example.studentmanagement.models.Student;
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.OnFailureListener;
     import com.google.android.gms.tasks.OnSuccessListener;
     import com.google.android.gms.tasks.Task;
     import com.google.firebase.database.DataSnapshot;
+    import com.google.firebase.database.DatabaseError;
     import com.google.firebase.database.DatabaseReference;
     import com.google.firebase.database.FirebaseDatabase;
+    import com.google.firebase.database.ValueEventListener;
+
+    import java.util.ArrayList;
+
     public class StudentController {
         private final DatabaseReference mDatabase;
 
@@ -21,6 +28,10 @@
 
         public interface OnStudentCreatedListener {
             void onStudentCreated(Student student);
+        }
+
+        public interface OnStudentsLoadedListener{
+            void onStudentsLoaded(ArrayList<Student> students);
         }
 
         public StudentController() {
@@ -45,7 +56,11 @@
 
         public void create(Student student, final OnStudentCreatedListener listener) {
             student.id = mDatabase.push().getKey();
-            mDatabase.child("students").child(student.id).setValue(student)
+
+            // Encode the key before storing in Firebase
+            String encodedKey = Base64.encodeToString((student.id).getBytes(), Base64.NO_WRAP);
+
+            mDatabase.child("students").child(encodedKey).setValue(student)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -74,5 +89,29 @@
                             listener.onStudentLoaded(student);
                         }
                     });
+        }
+
+        public void getAllStudent(final OnStudentsLoadedListener listener){
+            ArrayList<Student> students = new ArrayList<>();
+            mDatabase.child("students").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        // Retrieve the data for each student
+                        Student student = dataSnapshot.getValue(Student.class);
+                        students.add(student);
+
+                        // Now 'student' contains the object representing a student
+                        // Handle the retrieved data as needed
+                        Log.e("MyApp", "Student ID: " + snapshot.getKey() + ", Name: " + student.getName());
+                    }
+                    listener.onStudentsLoaded(students);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }

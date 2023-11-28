@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.UUID;
 
 public class CertificateEditFragment extends Fragment {
     private final int PICK_PHOTO_FOR_AVATAR = 12345;
@@ -91,6 +93,7 @@ public class CertificateEditFragment extends Fragment {
                 tvExpiredAt.setText(sdf.format(certificate.expiredAt));
                 tvScore.setText(String.valueOf(certificate.score));
                 try {
+                    Log.e("MyApp", "Edit fragment picture: " + certificate.pictureLink);
                     imageController.setImage(certificate.pictureLink, "certificates", img, new ImageController.OnImageLoadListener() {
                         @Override
                         public void onImageLoaded() {
@@ -118,9 +121,16 @@ public class CertificateEditFragment extends Fragment {
                     return;
                 }
 
-                if(bitmapImg == null){
+                if(img.getDrawable() == null){
                     Toast.makeText(getContext(), "Please choose a picture for Certificate", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                Drawable drawable = img.getDrawable();
+
+                if (drawable instanceof BitmapDrawable) {
+                    // If the Drawable is a BitmapDrawable, directly cast and get the Bitmap
+                    bitmapImg = ((BitmapDrawable) drawable).getBitmap();
+                    // Now you can use the 'bitmap' as needed
                 }
 
                 finalCertificate.name = tvName.getText().toString();
@@ -135,7 +145,7 @@ public class CertificateEditFragment extends Fragment {
                     throw new RuntimeException(e);
                 }
                 finalCertificate.score = Double.parseDouble(tvScore.getText().toString());
-                finalCertificate.setPictureLink(finalCertificate.name);
+                finalCertificate.pictureLink = finalCertificate.getName().replaceAll(" ", "_").toLowerCase() + UUID.randomUUID();
 
                 assert student != null;
                 boolean isContained = false;
@@ -158,8 +168,7 @@ public class CertificateEditFragment extends Fragment {
                                 Toast.makeText(getContext(), "Save certificate successfully!", Toast.LENGTH_SHORT).show();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("student", student);
-                                Log.e("MyApp", "Load UI");
-                                getParentFragmentManager().beginTransaction().replace(R.id.ln_main, StudentDetailFragment.class, bundle).commitAllowingStateLoss();
+                                getParentFragmentManager().beginTransaction().replace(R.id.csl_students, StudentDetailFragment.class, bundle).commitAllowingStateLoss();
                             }
                         });
                         Log.e("MyApp", "Image is uploading!");

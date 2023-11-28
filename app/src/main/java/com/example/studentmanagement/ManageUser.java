@@ -3,8 +3,10 @@ package com.example.studentmanagement;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,19 +30,20 @@ import android.widget.Toast;
 import com.example.studentmanagement.adapter.UserAdapter;
 import com.example.studentmanagement.models.User;
 import com.example.studentmanagement.models.UserSelect;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class ManageUser extends AppCompatActivity {
-
-
+    DrawerLayout dl;
+    NavigationView nav;
+    ActionBarDrawerToggle actionBarDrawerToggle;
     TextView txt_total;
     RecyclerView listUser;
     FirebaseDatabase database;
@@ -50,9 +53,7 @@ public class ManageUser extends AppCompatActivity {
     ImageButton btn_add, btn_del;
 
     private ArrayList<UserSelect> data = new ArrayList<>();
-
     private ArrayList<UserSelect> datatmp = new ArrayList<>();
-
     private UserAdapter userAdapter;
 
 
@@ -60,6 +61,14 @@ public class ManageUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_user);
+
+        dl = findViewById(R.id.dl);
+        nav = findViewById(R.id.nav_main);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
+
+        dl.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         txt_total = findViewById(R.id.txt_total);
         listUser = findViewById(R.id.listUser);
@@ -89,14 +98,12 @@ public class ManageUser extends AppCompatActivity {
                 else{
                    filterRole(role);
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-
         });
 
         ActionBar actionBar = getSupportActionBar();
@@ -127,8 +134,6 @@ public class ManageUser extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     public void DialogdeleteSelected(){
@@ -175,7 +180,6 @@ public class ManageUser extends AppCompatActivity {
                 else{
                     searchUser(newText);
                 }
-
                return false;
             }
         });

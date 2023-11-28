@@ -1,15 +1,19 @@
 package com.example.studentmanagement.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentmanagement.R;
+import com.example.studentmanagement.fragments.StudentDetailFragment;
 import com.example.studentmanagement.models.Student;
 
 import java.util.ArrayList;
@@ -17,11 +21,13 @@ import java.util.ArrayList;
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<Student> list;
+    ArrayList<Student> students;
+    FragmentManager fragmentManager;
 
-    public StudentAdapter(Context context, ArrayList<Student> list) {
+    public StudentAdapter(Context context, ArrayList<Student> students, FragmentManager fragmentManager) {
         this.context = context;
-        this.list = list;
+        this.students = students;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -33,13 +39,25 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Student student = list.get(position);
+        Student student = students.get(position);
         holder.name.setText(student.getName());
+        holder.itemView.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("student", students.get(students.size()-1));
+
+            StudentDetailFragment studentDetailFragment = new StudentDetailFragment();
+            studentDetailFragment.setArguments(bundle);
+
+            fragmentTransaction.replace(R.id.csl_students, studentDetailFragment);
+            fragmentTransaction.commit();
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return students.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{

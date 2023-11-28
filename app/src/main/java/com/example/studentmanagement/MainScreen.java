@@ -57,7 +57,6 @@ public class MainScreen extends AppCompatActivity {
             setPhoneNumber();
             editor.putString("Phonenumber",phone);
             editor.apply();
-
         }
         else{ //da co thong tin dang nhap
             Toast.makeText(MainScreen.this, "phone", Toast.LENGTH_SHORT).show();
@@ -65,19 +64,13 @@ public class MainScreen extends AppCompatActivity {
             fphone = formatPhone(phone);
         }
 
-
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sharedPref.edit().clear().commit();
             }
         });
-
-
         showData();
-
-
-
     }
 
 
@@ -96,15 +89,10 @@ public class MainScreen extends AppCompatActivity {
         return "0"+tmp;
     }
 
-
     public  void setPhoneNumber(){
         phone = getIntent().getStringExtra("Phonenumber");
         fphone = formatPhone(phone);
-
     }
-
-
-
     private void showData() {  //luu curently account de su dung
          myRef = database.getReference("Users");
          myRef.addValueEventListener(new ValueEventListener() {

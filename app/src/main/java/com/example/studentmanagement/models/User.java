@@ -16,7 +16,6 @@ public class User implements Serializable {
     private String phoneNumber;
     private Boolean locked;
     private String pictureLink;
-
     private String role;
 
     public User(){}

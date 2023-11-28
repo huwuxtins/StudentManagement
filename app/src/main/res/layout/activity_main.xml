@@ -5,28 +5,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     tools:context=".activities.MainActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/ln_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ImageButton
-            android:id="@+id/btn_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_plus"
-            android:background="#fff"
-            android:layout_gravity="end"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_main"
+        android:elevation="1dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"/>
-    </LinearLayout>
-    
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="10dp">
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_title_home"
+                android:drawableLeft="@drawable/icon_home"
+                android:backgroundTint="@color/toolbarManageUser"/>
+            <Button
+                android:id="@+id/btn_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_title_man_user"
+                android:drawableLeft="@drawable/icon_user"
+                android:backgroundTint="@color/toolbarManageUser"/>
+            <Button
+                android:id="@+id/btn_students"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_title_man_stu"
+                android:drawableLeft="@drawable/icon_student"
+                android:backgroundTint="@color/toolbarManageUser"/>
+        </LinearLayout>
+    </FrameLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_main"
         android:layout_width="wrap_content"

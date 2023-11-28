@@ -3,7 +3,6 @@ package com.example.studentmanagement.models;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +14,6 @@ public class Certificate implements Serializable {
     public Date expiredAt;
     public Double score;
     public String pictureLink;
-
     public Certificate(){}
 
     public Certificate(String name, Date createdAt, Date expiredAt, Double score, String pictureLink) {
@@ -32,38 +30,6 @@ public class Certificate implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getExpiredAt() {
-        return expiredAt;
-    }
-
-    public void setExpiredAt(Date expiredAt) {
-        this.expiredAt = expiredAt;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
-    public String getPictureLink() {
-        return pictureLink;
-    }
-
-    public void setPictureLink(String name) {
-        this.pictureLink = name.replaceAll(" ", "_").toLowerCase() + UUID.randomUUID();
     }
 
     @Exclude

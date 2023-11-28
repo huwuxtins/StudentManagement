@@ -6,15 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.studentmanagement.activities.MainActivity;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class intro extends AppCompatActivity {
 
-    SharedPreferences sharedPref ;
-    String shpPhone;
-
-    Timer timer;
+    SharedPreferences sharedPref;
+    String shpPhone;    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,6 @@ public class intro extends AppCompatActivity {
         }
 
         sharedPref = getApplicationContext().getSharedPreferences("Account", 0);
-
 
         shpPhone  = sharedPref.getString("Phonenumber","null");
 
@@ -47,7 +46,7 @@ public class intro extends AppCompatActivity {
             startActivity(intent);
         }
         else{
-            Intent intent = new Intent(intro.this, MainScreen.class);
+            Intent intent = new Intent(intro.this, MainActivity.class);
             startActivity(intent);
         }
     }

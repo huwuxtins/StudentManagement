@@ -3,11 +3,9 @@ package com.example.studentmanagement;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 import com.example.studentmanagement.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,12 +24,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -43,18 +38,14 @@ public class Login extends AppCompatActivity {
 
     EditText edt_phoneNumber;
     Button btn_otp;
-
     FirebaseDatabase database;
     DatabaseReference myRef;
-
     List<User> checkList = new ArrayList<>();
 
     FirebaseAuth mAuth;
 
     String phone;
-
     String formatPhone;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +70,6 @@ public class Login extends AppCompatActivity {
                 phone = edt_phoneNumber.getText().toString();
                 if(phone.length() != 10){
                     Toast.makeText(Login.this, "Invalid phone number", Toast.LENGTH_SHORT).show();
-
                 }
                 else {
 
@@ -108,8 +98,6 @@ public class Login extends AppCompatActivity {
                                   verifyOTP(formatPhone);
 
                             }
-
-
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -189,7 +177,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void goToEnterLogin(String phoneNumber, String s) {
-        Intent intent = new Intent(Login.this, enterlogin.class);
+        Intent intent = new Intent(Login.this, EnterOTP.class);
         intent.putExtra("Phonenumber", phoneNumber);
         intent.putExtra("Verificationid",s);
         startActivity(intent);

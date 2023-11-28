@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/appbackground_41_text_symbol"
-    tools:context=".enterlogin">
+    tools:context=".EnterOTP">
 
 
     <TextView

@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
+import com.example.studentmanagement.activities.MainActivity;
 import com.example.studentmanagement.models.LoginHistory;
+import com.example.studentmanagement.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -30,15 +31,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-public class enterlogin extends AppCompatActivity {
-
-
+public class EnterOTP extends AppCompatActivity {
     PinView pinview ;
     Button btn_enter;
 
@@ -47,20 +47,17 @@ public class enterlogin extends AppCompatActivity {
 
     TextView txt_sendAgain;
 
-    FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
 
+    FirebaseAuth mAuth;
 
     String dateTime ;
     String fphone ;
 
-    FirebaseDatabase database;
     DatabaseReference myRef;
 
     PhoneAuthProvider.ForceResendingToken mforceResendingToken;
-
-
     long maxId = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +75,7 @@ public class enterlogin extends AppCompatActivity {
 
 
         myRef = FirebaseDatabase.getInstance().getReference("LoginHistory");
-
-
         getData();
-        
 
         btn_enter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +92,6 @@ public class enterlogin extends AppCompatActivity {
                     sendAgainOTP();
             }
         });
-
-
-
     }
 
     public String formatPhone(String s){
@@ -108,14 +99,10 @@ public class enterlogin extends AppCompatActivity {
         return "0"+tmp;
     }
 
-
-
     public void getData(){
-            phone = getIntent().getStringExtra("Phonenumber");
-            fphone = formatPhone(phone);
-            verificationid = getIntent().getStringExtra("Verificationid");
-
-
+        phone = getIntent().getStringExtra("Phonenumber");
+        fphone = formatPhone(phone);
+        verificationid = getIntent().getStringExtra("Verificationid");
     }
 
     public void sendVerifyOTP(String otp){
@@ -130,21 +117,28 @@ public class enterlogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
                             FirebaseUser user = task.getResult().getUser();
-                            saveHistory();
-                            goToMain(user.getPhoneNumber());
-
+                            Log.e("MyApp", formatPhone(user.getPhoneNumber()));
+                            mDatabase.child("Users").child(formatPhone(user.getPhoneNumber())).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    User user = task.getResult().getValue(User.class);
+                                    Log.e("MyApp", "Username: " + user.getName());
+                                    saveHistory();
+                                    goToMain(user.getPhoneNumber(), user.getRole());
+                                }
+                            });
                         } else {
                             // Sign in failed, display a message and update the UI
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(enterlogin.this,"The verification code entered was invalid", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EnterOTP.this,"The verification code entered was invalid", Toast.LENGTH_SHORT).show();
                                 Log.w(TAG, "signInWithCredential:failure", task.getException());
                             }
                         }
                     }
                 });
     }
-
 
 
     private void saveHistory() {
@@ -158,47 +152,47 @@ public class enterlogin extends AppCompatActivity {
             myRef.child(id).setValue(newHis);
 
         }
-
     }
 
     private void setMaxId(long mid){
         this.maxId = mid;
     }
 
-    private void goToMain(String phoneNumber) {
-        Intent intent = new Intent(enterlogin.this, MainScreen.class);
+    private void goToMain(String phoneNumber, String ROLE) {
+        Intent intent = new Intent(EnterOTP.this, MainActivity.class);
         intent.putExtra("Phonenumber", phoneNumber);
+        intent.putExtra("ROLE", ROLE);
         startActivity(intent);
     }
 
     private void sendAgainOTP(){
         PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(phone)       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setForceResendingToken(mforceResendingToken)
-                        .setActivity(this)                 // (optional) Activity for callback binding
-                        // If no activity is passed, reCAPTCHA verification can not be used.
-                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                            @Override
-                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                signInWithPhoneAuthCredential(phoneAuthCredential);
-                            }
+            PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(phone)       // Phone number to verify
+                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                .setForceResendingToken(mforceResendingToken)
+                .setActivity(this)                 // (optional) Activity for callback binding
+                // If no activity is passed, reCAPTCHA verification can not be used.
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                        signInWithPhoneAuthCredential(phoneAuthCredential);
+                    }
 
-                            @Override
-                            public void onVerificationFailed(@NonNull FirebaseException e) {
-                                    Toast.makeText(enterlogin.this,"Verification Failed", Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                            Toast.makeText(EnterOTP.this,"Verification Failed", Toast.LENGTH_SHORT).show();
+                    }
 
-                            @Override
-                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                super.onCodeSent(s, forceResendingToken);
-                                Toast.makeText(enterlogin.this, "OTP is sent again",Toast.LENGTH_SHORT).show();
-                                verificationid = s;
-                                mforceResendingToken = forceResendingToken;
-                            }
-                        })          // OnVerificationStateChangedCallbacks
-                        .build();
+                    @Override
+                    public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(s, forceResendingToken);
+                        Toast.makeText(EnterOTP.this, "OTP is sent again",Toast.LENGTH_SHORT).show();
+                        verificationid = s;
+                        mforceResendingToken = forceResendingToken;
+                    }
+                })          // OnVerificationStateChangedCallbacks
+                .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 }

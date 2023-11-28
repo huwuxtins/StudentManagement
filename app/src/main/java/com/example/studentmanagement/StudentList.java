@@ -42,7 +42,7 @@ public class StudentList extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("students");
         list = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        studentAdapter = new StudentAdapter(this, list);
+        studentAdapter = new StudentAdapter(this, list, getSupportFragmentManager());
         recyclerView.setAdapter(studentAdapter);
         ImageButton addButton = findViewById(R.id.imageButtonAddStudent);
 

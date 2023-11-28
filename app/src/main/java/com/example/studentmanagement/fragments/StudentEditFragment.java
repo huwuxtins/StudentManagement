@@ -1,34 +1,28 @@
 package com.example.studentmanagement.fragments;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentmanagement.R;
-import com.example.studentmanagement.adapters.CertificateAdapter;
+import com.example.studentmanagement.adapter.CertificateAdapter;
 import com.example.studentmanagement.controllers.StudentController;
 import com.example.studentmanagement.dialog.DatePickerFragment;
 import com.example.studentmanagement.models.Student;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 public class StudentEditFragment extends Fragment {
@@ -99,7 +93,7 @@ public class StudentEditFragment extends Fragment {
                             Toast.makeText(getContext(), "Update successfully!", Toast.LENGTH_SHORT).show();
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("student", student);
-                            getParentFragmentManager().beginTransaction().replace(R.id.ln_main, StudentDetailFragment.class, bundle).commit();
+                            getParentFragmentManager().beginTransaction().replace(R.id.csl_students, StudentDetailFragment.class, bundle).commit();
                             Toast.makeText(getContext(), "Edit student", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -109,7 +103,7 @@ public class StudentEditFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("student", student);
                     bundle.putInt("position", student.certificates.size());
-                    getParentFragmentManager().beginTransaction().replace(R.id.ln_main, CertificateEditFragment.class, bundle).commit();
+                    getParentFragmentManager().beginTransaction().replace(R.id.csl_students, CertificateEditFragment.class, bundle).commit();
                 });
             }
         }

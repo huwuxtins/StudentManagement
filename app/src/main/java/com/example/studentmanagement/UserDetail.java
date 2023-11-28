@@ -1,7 +1,6 @@
 package com.example.studentmanagement;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,9 +17,7 @@ import android.widget.TextView;
 import com.example.studentmanagement.dialog.DialogLoginHistory;
 import com.example.studentmanagement.models.LoginHistory;
 import com.example.studentmanagement.models.User;
-import com.example.studentmanagement.models.UserSelect;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,8 +47,6 @@ public class UserDetail extends AppCompatActivity {
     DatabaseReference myRef;
 
     StorageReference storageReference;
-
-    FirebaseStorage firebaseStorage;
 
     User detailuser;
 

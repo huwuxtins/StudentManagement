@@ -35,9 +35,6 @@ public class Student implements Serializable {
         this.certificates = certificates;
     }
 
-    public Student(String studentname, String studentemail, String studentphone) {
-    }
-
     public String getId() {
         return id;
     }

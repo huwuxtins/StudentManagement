@@ -1,7 +1,7 @@
 package com.example.studentmanagement.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +12,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentmanagement.R;
-import com.example.studentmanagement.adapters.CertificateAdapter;
-import com.example.studentmanagement.controllers.StudentController;
-import com.example.studentmanagement.models.Certificate;
+import com.example.studentmanagement.adapter.CertificateAdapter;
 import com.example.studentmanagement.models.Student;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class StudentDetailFragment extends Fragment {
-
+    SharedPreferences sharedPref;
     RecyclerView rcvCer;
     TextView tvId, tvName, tvBod, tvClass, tvGender,tvFaculties, tvPhone;
     Button btnEdit;
@@ -56,6 +51,7 @@ public class StudentDetailFragment extends Fragment {
             Student student = (Student) args.getSerializable("student");
             if (student != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                sharedPref = getContext().getSharedPreferences("Account", 0);
 
                 tvId.setText(student.id);
                 tvName.setText(student.name);
@@ -70,7 +66,7 @@ public class StudentDetailFragment extends Fragment {
                 btnEdit.setOnClickListener(v -> {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("student", student);
-                    getParentFragmentManager().beginTransaction().replace(R.id.ln_main, StudentEditFragment.class, bundle).commit();
+                    getParentFragmentManager().beginTransaction().replace(R.id.csl_students, StudentEditFragment.class, bundle).commit();
                     Toast.makeText(getContext(), "Edit student", Toast.LENGTH_SHORT).show();
                 });
             }

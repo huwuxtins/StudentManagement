@@ -1,4 +1,4 @@
-package com.example.studentmanagement.adapters;
+package com.example.studentmanagement.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentmanagement.R;
@@ -24,7 +23,6 @@ import com.example.studentmanagement.models.Certificate;
 import com.example.studentmanagement.models.Student;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -58,6 +56,7 @@ public class CertificateAdapter extends RecyclerView.Adapter<CertificateAdapter.
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = sdf.format(certificates.get(position).createdAt) + " - " + sdf.format(certificates.get(position).expiredAt);
         try {
+            Log.e("MyApp", "Adapter picture: " + certificates.get(position).pictureLink);
             imageController.setImage(certificates.get(position).pictureLink, "certificates", holder.imgCer, new ImageController.OnImageLoadListener() {
                 @Override
                 public void onImageLoaded() {
@@ -76,7 +75,7 @@ public class CertificateAdapter extends RecyclerView.Adapter<CertificateAdapter.
             bundle.putSerializable("certificate", certificates.get(position));
             bundle.putSerializable("student", student);
             bundle.putInt("position", position);
-            fragmentManager.beginTransaction().replace(R.id.ln_main, CertificateEditFragment.class, bundle).commit();
+            fragmentManager.beginTransaction().replace(R.id.csl_students, CertificateEditFragment.class, bundle).commit();
         });
 
         holder.btnRemove.setOnClickListener(v -> {
@@ -94,13 +93,15 @@ public class CertificateAdapter extends RecyclerView.Adapter<CertificateAdapter.
 
     @Override
     public int getItemCount() {
+        if(certificates == null){
+            return 0;
+        }
         return certificates.size();
     }
 
     public static class CertificateViewHolder extends RecyclerView.ViewHolder{
         ImageView imgCer;
         TextView tvName, tvDate, tvScore;
-
         ImageButton btnRemove, btnEdit;
 
         public CertificateViewHolder(@NonNull View itemView) {
