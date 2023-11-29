@@ -148,7 +148,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title_bod"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
+    <ImageButton
+        android:id="@+id/btn_export"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_export"
+        android:backgroundTint="#1C9700"
+        app:layout_constraintBottom_toBottomOf="@id/rcv_certificates"
+        app:layout_constraintEnd_toEndOf="@id/rcv_certificates"/>
     <Button
         android:id="@+id/btn_edit"
         android:layout_width="match_parent"

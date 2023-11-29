@@ -46,7 +46,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable("student", students.get(students.size()-1));
+            bundle.putSerializable("student", students.get(position));
 
             StudentDetailFragment studentDetailFragment = new StudentDetailFragment();
             studentDetailFragment.setArguments(bundle);
