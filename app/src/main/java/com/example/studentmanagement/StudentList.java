@@ -10,9 +10,12 @@ import android.health.connect.datatypes.units.Length;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -41,6 +44,8 @@ public class StudentList extends AppCompatActivity {
     ArrayList<Student> list;
 
     ArrayList<Student> listTmp;
+
+    ArrayList<Student> listSearch;
     DatabaseReference databaseReference;
     StudentAdapter studentAdapter;
 
@@ -49,6 +54,8 @@ public class StudentList extends AppCompatActivity {
     Button btn_sort;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+    EditText search;
 
     @Override
     public void onBackPressed() {
@@ -66,6 +73,7 @@ public class StudentList extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("students");
         list = new ArrayList<>();
         listTmp = new ArrayList<>();
+        listSearch = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         studentAdapter = new StudentAdapter(this, list, getSupportFragmentManager());
         recyclerView.setAdapter(studentAdapter);
@@ -73,6 +81,7 @@ public class StudentList extends AppCompatActivity {
         attribute = findViewById(R.id.attribute);
         typeSort = findViewById(R.id.typeSort);
         btn_sort = findViewById(R.id.btn_sort);
+        search = findViewById(R.id.editTextText);
 
         ImageButton addButton = findViewById(R.id.imageButtonAddStudent);
         ImageButton exportButton = findViewById(R.id.img_export);

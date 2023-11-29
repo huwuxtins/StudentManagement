@@ -20,6 +20,7 @@
         <activity
             android:name=".StudentList"
             android:exported="true"
+            android:windowSoftInputMode="adjustNothing"
             android:parentActivityName=".activities.MainActivity"/>
         <activity
             android:name=".AddStudent"
