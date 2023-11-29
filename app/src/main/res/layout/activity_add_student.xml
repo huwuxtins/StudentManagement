@@ -46,6 +46,7 @@
             android:layout_gravity="center"/>
         <EditText
             android:id="@+id/edt_bod"
+            android:focusable="false"
             android:drawableLeft="@drawable/baseline_date_range_24"
             android:drawablePadding="10dp"
             android:layout_width="match_parent"
@@ -72,6 +73,7 @@
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/phone"
             android:hint="Enter your phone"
+            android:inputType="phone"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:textSize="20dp" />

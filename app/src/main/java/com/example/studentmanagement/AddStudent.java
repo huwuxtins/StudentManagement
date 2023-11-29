@@ -56,11 +56,22 @@ public class AddStudent extends AppCompatActivity {
         btnAddStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    InsertData();
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+
+                String c = checkData();
+
+                if(c.equals("OK")){
+                     try {
+                        InsertData();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+                else{
+                    Toast.makeText(AddStudent.this,c,Toast.LENGTH_LONG).show();
+                }
+
+
+
             }
         });
         btnViewListStudent.setOnClickListener((new View.OnClickListener() {
@@ -141,5 +152,24 @@ public class AddStudent extends AppCompatActivity {
                 });
             }
         }
+    }
+
+
+    private String checkData(){
+        String name = edtName.getText().toString();
+        String phone = edtPhone.getText().toString();
+        String className = edtClass.getText().toString();
+        String faculties = edtFaculties.getText().toString();
+
+        if(name.equals("") || phone.equals("") || className.equals("") || faculties.equals("")){
+            return "Please enter enough information";
+        }
+
+        if(phone.length()!=10){
+            return "Invalid phone number";
+        }
+
+        return "OK";
+
     }
 }
