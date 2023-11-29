@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import java.util.Comparator;
+
 public class Student implements Serializable {
     public String id;
     public String name;
@@ -23,7 +24,8 @@ public class Student implements Serializable {
     public String pictureLink;
     public ArrayList<Certificate> certificates;
 
-    public Student(){}
+    public Student() {
+    }
 
     public Student(String name, Date bod, String className,
                    String gender, String phoneNumber, String faculties,
@@ -111,7 +113,7 @@ public class Student implements Serializable {
     }
 
     @Exclude
-    public Map<String, Object> toMap(){
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("name", name);
@@ -148,7 +150,7 @@ public class Student implements Serializable {
             String StudentName2
                     = s2.getClassName().toUpperCase();
             // descending order
-             return StudentName2.compareTo(StudentName1);
+            return StudentName2.compareTo(StudentName1);
         }
     };
 
@@ -159,8 +161,8 @@ public class Student implements Serializable {
             Date date2 = s2.getBod();
 
 
-            int bod1 = s1.getBod().getYear() ;
-            int bod2 = s2.getBod().getYear() ;
+            int bod1 = s1.getBod().getYear();
+            int bod2 = s2.getBod().getYear();
 
             // ASC
             return bod1 - bod2;
@@ -180,7 +182,7 @@ public class Student implements Serializable {
         }
     };
 
-
-
-
+    public String convertToCsv() {
+        return id + "," + name + "," + bod + "," + className + "," + gender + "," + phoneNumber + "," + faculties + "," + pictureLink;
+    }
 }

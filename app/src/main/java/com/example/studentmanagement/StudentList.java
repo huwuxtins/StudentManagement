@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.health.connect.datatypes.units.Length;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,10 +36,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
 
 public class StudentList extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -54,6 +61,8 @@ public class StudentList extends AppCompatActivity {
     Spinner attribute, typeSort;
 
     Button btn_sort;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     EditText search;
 
@@ -86,6 +95,35 @@ public class StudentList extends AppCompatActivity {
         search = findViewById(R.id.editTextText);
 
         ImageButton addButton = findViewById(R.id.imageButtonAddStudent);
+        ImageButton exportButton = findViewById(R.id.img_export);
+
+        exportButton.setOnClickListener(v -> {
+            File directory = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS), "Students");
+
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            File file = new File(directory, "students.csv");
+
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.append("ID,Name,Date of Birth,Class,Gender,Phone Number,Faculties,Picture Link\n");
+                for (Student student : list) {
+                    writer.append(String.format(Locale.getDefault(), "%s,%s,%s,%s,%s,%s,%s,%s\n",
+                            student.id,
+                            student.name,
+                            sdf.format(student.bod),
+                            student.className,
+                            student.gender,
+                            student.phoneNumber,
+                            student.faculties,
+                            student.pictureLink));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         getAllStudent();
@@ -129,41 +167,6 @@ public class StudentList extends AppCompatActivity {
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }
-            }
-        });
-
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                    if(listSearch.size() != 0){
-                        listSearch.clear();
-                    }
-                    String key = search.getText().toString();
-
-                    if(key.equals("")){
-                        studentAdapter.setData(list);
-                        studentAdapter.notifyDataSetChanged();
-                    }
-                    else{
-                        for(Student st : list){
-                            if(st.getId().contains(key)){
-                                listSearch.add(st);
-                            }
-                        }
-
-                        studentAdapter.setData(listSearch);
-                        studentAdapter.notifyDataSetChanged();
-                    }
             }
         });
 
