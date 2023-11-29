@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.health.connect.datatypes.units.Length;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,12 +37,16 @@ public class StudentList extends AppCompatActivity {
     ArrayList<Student> list;
 
     ArrayList<Student> listTmp;
+
+    ArrayList<Student> listSearch;
     DatabaseReference databaseReference;
     StudentAdapter studentAdapter;
 
     Spinner attribute, typeSort;
 
     Button btn_sort;
+
+    EditText search;
 
     @Override
     public void onBackPressed() {
@@ -57,6 +64,7 @@ public class StudentList extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("students");
         list = new ArrayList<>();
         listTmp = new ArrayList<>();
+        listSearch = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         studentAdapter = new StudentAdapter(this, list, getSupportFragmentManager());
         recyclerView.setAdapter(studentAdapter);
@@ -64,6 +72,7 @@ public class StudentList extends AppCompatActivity {
         attribute = findViewById(R.id.attribute);
         typeSort = findViewById(R.id.typeSort);
         btn_sort = findViewById(R.id.btn_sort);
+        search = findViewById(R.id.editTextText);
 
         ImageButton addButton = findViewById(R.id.imageButtonAddStudent);
 
@@ -115,6 +124,41 @@ public class StudentList extends AppCompatActivity {
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }
+            }
+        });
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if(listSearch.size() != 0){
+                        listSearch.clear();
+                    }
+                    String key = search.getText().toString();
+
+                    if(key.equals("")){
+                        studentAdapter.setData(list);
+                        studentAdapter.notifyDataSetChanged();
+                    }
+                    else{
+                        for(Student st : list){
+                            if(st.getId().contains(key)){
+                                listSearch.add(st);
+                            }
+                        }
+
+                        studentAdapter.setData(listSearch);
+                        studentAdapter.notifyDataSetChanged();
+                    }
             }
         });
 
