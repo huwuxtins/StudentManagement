@@ -35,6 +35,15 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="20dp"
                 android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txt_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:text="11B" />
+
+
             <CheckBox
                 android:id="@+id/cb_select"
                 android:layout_width="wrap_content"

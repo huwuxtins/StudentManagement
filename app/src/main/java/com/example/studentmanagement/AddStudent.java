@@ -141,8 +141,6 @@ public class AddStudent extends AppCompatActivity {
                     }
                 });
             }
-            // Now, you can use the selected file URI to perform further operations
-            // For example, you might want to read the content of the file or perform some other action
         }
     }
 }

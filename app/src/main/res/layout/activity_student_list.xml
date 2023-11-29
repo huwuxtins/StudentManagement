@@ -40,23 +40,26 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_width="406dp"
+        android:layout_height="307dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="172dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbListStudent"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:id="@+id/imageButtonAddStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/button_add"
         android:src="@drawable/add_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerview"
-        app:layout_constraintVertical_bias="0.104"
         tools:ignore="MissingConstraints">
 
     </ImageButton>
@@ -65,15 +68,50 @@
         android:id="@+id/imageButtonDeleteStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/btn_delete"
         android:src="@drawable/baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerview"
-        app:layout_constraintVertical_bias="0.104"
         tools:ignore="MissingConstraints">
 
     </ImageButton>
+
+    <Spinner
+        android:id="@+id/attribute"
+        android:layout_width="105dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="32dp"
+        android:entries="@array/attribute"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbListStudent"
+        app:layout_constraintVertical_bias="0.044" />
+
+    <Spinner
+        android:id="@+id/typeSort"
+        android:layout_width="102dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="20dp"
+        android:entries="@array/typeSort"
+        app:layout_constraintBottom_toBottomOf="@+id/attribute"
+        app:layout_constraintStart_toEndOf="@+id/attribute"
+        app:layout_constraintTop_toTopOf="@+id/attribute"
+        app:layout_constraintVertical_bias="0.435" />
+
+    <Button
+        android:id="@+id/btn_sort"
+        android:layout_width="105dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="40dp"
+        android:text="Sắp xếp"
+        android:backgroundTint="#299660"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/typeSort"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toEndOf="@+id/typeSort"
+        app:layout_constraintTop_toTopOf="@+id/typeSort" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

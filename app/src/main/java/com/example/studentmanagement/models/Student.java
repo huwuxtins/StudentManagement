@@ -3,12 +3,15 @@ package com.example.studentmanagement.models;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.Comparator;
 public class Student implements Serializable {
     public String id;
     public String name;
@@ -121,4 +124,63 @@ public class Student implements Serializable {
         result.put("certificates", certificates);
         return result;
     }
+
+    public static Comparator<Student> StuClassComparatorASC = new Comparator<Student>() {
+
+        public int compare(Student s1, Student s2) {
+            String StudentName1
+                    = s1.getClassName().toUpperCase();
+            String StudentName2
+                    = s2.getClassName().toUpperCase();
+
+            // Returning in ascending order
+            return StudentName1.compareTo(
+                    StudentName2);
+
+        }
+    };
+
+    public static Comparator<Student> StuClassComparatorDESC = new Comparator<Student>() {
+
+        public int compare(Student s1, Student s2) {
+            String StudentName1
+                    = s1.getClassName().toUpperCase();
+            String StudentName2
+                    = s2.getClassName().toUpperCase();
+            // descending order
+             return StudentName2.compareTo(StudentName1);
+        }
+    };
+
+    public static Comparator<Student> StuYearOfBodASC = new Comparator<Student>() {
+        public int compare(Student s1, Student s2) {
+
+            Date date1 = s1.getBod();
+            Date date2 = s2.getBod();
+
+
+            int bod1 = s1.getBod().getYear() ;
+            int bod2 = s2.getBod().getYear() ;
+
+            // ASC
+            return bod1 - bod2;
+
+        }
+    };
+
+    public static Comparator<Student> StuYearOfBodDESC = new Comparator<Student>() {
+
+        public int compare(Student s1, Student s2) {
+
+            int bod1 = s1.getBod().getYear();
+            int bod2 = s2.getBod().getYear();
+
+            //DESC
+            return bod2 - bod1;
+        }
+    };
+
+
+
+
 }

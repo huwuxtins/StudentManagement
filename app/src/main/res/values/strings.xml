@@ -20,4 +20,16 @@
         <item>Employee</item>
     </string-array>
 
+    <string-array name="attribute">
+        <item>None</item>
+        <item>Class</item>
+        <item>Birthday</item>
+    </string-array>
+
+    <string-array name="typeSort">
+        <item>None</item>
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+
 </resources>

@@ -41,6 +41,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Student student = students.get(position);
         holder.name.setText(student.getName());
+        holder.txt_class.setText(student.getClassName());
         holder.itemView.setOnClickListener(v -> {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -61,10 +62,16 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView name;
+        TextView name,txt_class;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textname);
+            txt_class = itemView.findViewById(R.id.txt_class);
         }
+    }
+
+    public void setData(ArrayList<Student> students){
+        this.students = students;
     }
 }
