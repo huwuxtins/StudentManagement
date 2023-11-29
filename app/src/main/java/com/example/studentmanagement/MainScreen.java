@@ -59,7 +59,7 @@ public class MainScreen extends AppCompatActivity {
             editor.apply();
         }
         else{ //da co thong tin dang nhap
-            Toast.makeText(MainScreen.this, "phone", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(MainScreen.this, "phone", Toast.LENGTH_SHORT).show();
             phone = sharedPref.getString("Phonenumber","null");
             fphone = formatPhone(phone);
         }

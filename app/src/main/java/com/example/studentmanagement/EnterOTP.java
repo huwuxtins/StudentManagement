@@ -119,12 +119,10 @@ public class EnterOTP extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             mDatabase = FirebaseDatabase.getInstance().getReference();
                             FirebaseUser user = task.getResult().getUser();
-                            Log.e("MyApp", formatPhone(user.getPhoneNumber()));
                             mDatabase.child("Users").child(formatPhone(user.getPhoneNumber())).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                                     User user = task.getResult().getValue(User.class);
-                                    Log.e("MyApp", "Username: " + user.getName());
                                     saveHistory();
                                     goToMain(user.getPhoneNumber(), user.getRole());
                                 }

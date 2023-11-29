@@ -21,7 +21,8 @@
             android:parentActivityName=".activities.MainActivity"/>
         <activity
             android:name=".AddStudent"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".StudentList"/>
         <activity
             android:name=".UserDetail"
             android:exported="true"

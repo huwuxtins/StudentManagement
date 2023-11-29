@@ -37,7 +37,6 @@ public class intro extends AppCompatActivity {
                 checkLogin();
             }
         },2000);
-
     }
 
     public void checkLogin(){

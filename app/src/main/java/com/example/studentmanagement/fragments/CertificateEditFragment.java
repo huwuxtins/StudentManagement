@@ -1,11 +1,14 @@
 package com.example.studentmanagement.fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,15 +27,21 @@ import androidx.fragment.app.Fragment;
 import com.example.studentmanagement.R;
 import com.example.studentmanagement.controllers.CertificateController;
 import com.example.studentmanagement.controllers.ImageController;
+import com.example.studentmanagement.controllers.StudentController;
 import com.example.studentmanagement.dialog.DatePickerFragment;
 import com.example.studentmanagement.models.Certificate;
 import com.example.studentmanagement.models.Student;
+import com.example.studentmanagement.utils.UriUtils;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -46,7 +55,9 @@ public class CertificateEditFragment extends Fragment {
     ImageController imageController = new ImageController();
     Certificate certificate = new Certificate();
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     Bitmap bitmapImg;
+    Student student;
 
     public CertificateEditFragment(){
         super(R.layout.fragment_certificate);
@@ -82,8 +93,6 @@ public class CertificateEditFragment extends Fragment {
             startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
         });
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
         Bundle args = getArguments();
         if (args != null) {
             certificate = (Certificate) args.getSerializable("certificate");
@@ -109,7 +118,7 @@ public class CertificateEditFragment extends Fragment {
                 certificate = new Certificate();
             }
 
-            Student student = (Student)args.getSerializable("student");
+            student = (Student)args.getSerializable("student");
             int position = args.getInt("position");
             Certificate finalCertificate = certificate;
             btnSave.setOnClickListener(v -> {
@@ -183,7 +192,7 @@ public class CertificateEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == RESULT_OK) {
             if (data == null) {
                 //Display an error
                 return;
