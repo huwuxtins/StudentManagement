@@ -21,8 +21,8 @@
 
             <ImageButton
                 android:id="@+id/imageButtonDetailStudent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/icon_student"
                 android:layout_marginRight="20dp"/>
             <TextView

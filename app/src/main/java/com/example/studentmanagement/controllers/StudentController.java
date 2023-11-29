@@ -57,10 +57,7 @@
         public void create(Student student, final OnStudentCreatedListener listener) {
             student.id = mDatabase.push().getKey();
 
-            // Encode the key before storing in Firebase
-            String encodedKey = Base64.encodeToString((student.id).getBytes(), Base64.NO_WRAP);
-
-            mDatabase.child("students").child(encodedKey).setValue(student)
+            mDatabase.child("students").child(student.id).setValue(student)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

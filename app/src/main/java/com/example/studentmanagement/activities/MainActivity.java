@@ -35,13 +35,10 @@
         NavigationView nav;
         ActionBarDrawerToggle actionBarDrawerToggle;
         FrameLayout lnMain;
-        ArrayList<Student> students = new ArrayList<>();
-        SharedPreferences sharedPref;
         Button btnHome, btnUsers, btnStudents;
-        StudentController studentController = new StudentController();
-
         String phone;
         String role;
+        SharedPreferences sharedPref;
         SharedPreferences.Editor editor ;
 
         @Override
@@ -58,16 +55,18 @@
             btnStudents = findViewById(R.id.btn_students);
 
             sharedPref = getApplicationContext().getSharedPreferences("Account", 0);
-            editor  = sharedPref.edit();
+            editor = sharedPref.edit();
             String shpPhone  = sharedPref.getString("Phonenumber","null");
 
             if(shpPhone.equals("null")){ // set sharepreferences tu intent - lan dang nhap dau
                 setPhoneNumber();
                 editor.putString("Phonenumber",phone);
+                editor.putString("ROLE", role);
                 editor.apply();
             }
             else{ //da co thong tin dang nhap
                 phone = sharedPref.getString("Phonenumber","null");
+                role = sharedPref.getString("ROLE", null);
             }
 
             dl.addDrawerListener(actionBarDrawerToggle);
@@ -93,43 +92,17 @@
 
                     } else if (id == R.id.it_stu) {
                         Toast.makeText(MainActivity.this, "Students", Toast.LENGTH_SHORT).show();
-                        ArrayList<Certificate> certificates = new ArrayList<>();
+                        Intent intent = new Intent(this, StudentList.class);
+                        startActivity(intent);
 
-                        Certificate certificate = null;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            certificate = new Certificate("Ielts", new Date(2003 - 1900, 0, 1),
-                                    new Date(2003 - 1900, 0, 1), 6.5,
-                                    "ieltsf997171d-e338-4bc5-a0f0-d1ea80073f07");
-                        }
-                        certificates.add(certificate);
-
-                        Student student = null;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            student = new Student(
-                                    "Nguyen Huu Tin", new Date(2003 - 1900, 0, 1), "21050201",
-                                    "Male", "0987654321", "IT", "ieltsf997171d-e338-4bc5-a0f0-d1ea80073f07",
-                                    certificates);
-                        }
-                        studentController.create(student, student1 -> {
-                            students.add(student1);
-                            Log.e("MyApp", "Length: " + students.size());
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("student", students.get(students.size()-1));
-
-                            StudentDetailFragment studentDetailFragment = new StudentDetailFragment();
-                            studentDetailFragment.setArguments(bundle);
-
-                            fragmentTransaction.replace(R.id.ln_main, studentDetailFragment);
-                            fragmentTransaction.commit();
-                        });
                     } else if (id == R.id.it_logout) {
-                    Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-                    sharedPref = getApplicationContext().getSharedPreferences("Account", 0);
-                    sharedPref.edit().clear();
-                    Intent intent = new Intent(this, Login.class);
-                    startActivity(intent);
-                }
-                return true;
+                        Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                        sharedPref = getApplicationContext().getSharedPreferences("Account", 0);
+                        sharedPref.edit().clear();
+                        Intent intent = new Intent(this, Login.class);
+                        startActivity(intent);
+                    }
+                    return true;
             });
 
             btnHome.setOnClickListener(v -> {
@@ -158,9 +131,9 @@
             return super.onOptionsItemSelected(item);
         }
 
-        public  void setPhoneNumber(){
+        public void setPhoneNumber(){
             phone = getIntent().getStringExtra("Phonenumber");
             role = getIntent().getStringExtra("ROLE");
+            Log.e("MyApp", "MainActivity: " + role);
         }
-
     }

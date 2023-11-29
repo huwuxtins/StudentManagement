@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,8 +50,10 @@ public class ManageUser extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
     Spinner spinner;
-
     ImageButton btn_add, btn_del;
+
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor ;
 
     private ArrayList<UserSelect> data = new ArrayList<>();
     private ArrayList<UserSelect> datatmp = new ArrayList<>();
@@ -61,6 +64,10 @@ public class ManageUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_user);
+
+        sharedPref = getApplicationContext().getSharedPreferences("Account", 0);
+        editor = sharedPref.edit();
+        String role = sharedPref.getString("ROLE", "null");
 
         dl = findViewById(R.id.dl);
         nav = findViewById(R.id.nav_main);
@@ -77,14 +84,17 @@ public class ManageUser extends AppCompatActivity {
 
         btn_add = findViewById(R.id.btn_add);
         btn_del = findViewById(R.id.btn_del);
-
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent newIntent = new Intent(ManageUser.this, AddUser.class);
-                    newIntent.putExtra("action","add");
-                    startActivityForResult(newIntent,112);
+                    if(role.equals("Admin")){
+                        Intent newIntent = new Intent(ManageUser.this, AddUser.class);
+                        newIntent.putExtra("action","add");
+                        startActivityForResult(newIntent,112);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "You don't have permission to make this action!", Toast.LENGTH_LONG).show();
+                    }
             }
         });
 
@@ -126,11 +136,16 @@ public class ManageUser extends AppCompatActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(userAdapter.getUserSelected() == 0){
-                    Toast.makeText(ManageUser.this, "No user selected", Toast.LENGTH_LONG).show();
+                if(role.equals("Admin")){
+                    if(userAdapter.getUserSelected() == 0){
+                        Toast.makeText(ManageUser.this, "No user selected", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        DialogdeleteSelected();
+                    }
                 }
                 else{
-                    DialogdeleteSelected();
+                    Toast.makeText(getApplicationContext(), "You don't have permission to make this action!", Toast.LENGTH_LONG).show();
                 }
             }
         });

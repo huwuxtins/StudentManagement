@@ -2,9 +2,12 @@ package com.example.studentmanagement.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,9 +16,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentmanagement.R;
+import com.example.studentmanagement.controllers.ImageController;
 import com.example.studentmanagement.fragments.StudentDetailFragment;
 import com.example.studentmanagement.models.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHolder> {
@@ -23,6 +28,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     Context context;
     ArrayList<Student> students;
     FragmentManager fragmentManager;
+    ImageController imageController = new ImageController();
 
     public StudentAdapter(Context context, ArrayList<Student> students, FragmentManager fragmentManager) {
         this.context = context;
@@ -41,11 +47,21 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Student student = students.get(position);
         holder.name.setText(student.getName());
+        try {
+            imageController.setImage(student.pictureLink, "students", holder.imageButtonDetailStudent, new ImageController.OnImageLoadListener() {
+                @Override
+                public void onImageLoaded() {
+                    Log.e("MyApp", "Image is loading!");
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         holder.itemView.setOnClickListener(v -> {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable("student", students.get(students.size()-1));
+            bundle.putSerializable("student", student);
 
             StudentDetailFragment studentDetailFragment = new StudentDetailFragment();
             studentDetailFragment.setArguments(bundle);
@@ -61,10 +77,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
+        ImageButton imageButtonDetailStudent;
         TextView name;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textname);
+            imageButtonDetailStudent = itemView.findViewById(R.id.imageButtonDetailStudent);
         }
     }
 }
