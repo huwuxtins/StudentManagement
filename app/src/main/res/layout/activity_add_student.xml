@@ -33,16 +33,7 @@
             android:layout_centerHorizontal="true"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
-        <EditText
-            android:id="@+id/edt_id"
-            android:drawableLeft="@drawable/name"
-            android:drawablePadding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your ID"
-            android:layout_marginTop="50dp"
-            android:textSize="20dp"
-            android:layout_gravity="center"/>
+
         <EditText
             android:id="@+id/edt_name"
             android:drawableLeft="@drawable/name"
@@ -55,7 +46,7 @@
             android:layout_gravity="center"/>
         <EditText
             android:id="@+id/edt_bod"
-            android:drawableLeft="@drawable/name"
+            android:drawableLeft="@drawable/baseline_date_range_24"
             android:drawablePadding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/baseline_email_24"
+            android:drawableLeft="@drawable/baseline_class_24"
             android:drawablePadding="10dp"
             android:hint="Enter your class"
             android:textSize="20dp"
@@ -110,7 +101,7 @@
             android:id="@+id/edt_faculties"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/baseline_email_24"
+            android:drawableLeft="@drawable/baseline_subject_24"
             android:drawablePadding="10dp"
             android:hint="Enter your faculties"
             android:layout_gravity="center"

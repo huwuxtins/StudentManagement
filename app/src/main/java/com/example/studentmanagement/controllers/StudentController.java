@@ -55,9 +55,9 @@
         }
 
         public void create(Student student, final OnStudentCreatedListener listener) {
-            student.id = mDatabase.push().getKey();
-
-            mDatabase.child("students").child(student.id).setValue(student)
+            student.setId(mDatabase.push().getKey());
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("students");
+            myRef.child(student.getId()).setValue(student)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

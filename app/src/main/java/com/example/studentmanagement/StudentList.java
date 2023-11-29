@@ -1,11 +1,15 @@
 package com.example.studentmanagement;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.health.connect.datatypes.units.Length;
 import android.media.Image;
 import android.os.Bundle;
@@ -22,6 +26,9 @@ import android.widget.Toast;
 
 import com.example.studentmanagement.adapter.StudentAdapter;
 import com.example.studentmanagement.models.Student;
+import com.example.studentmanagement.models.User;
+import com.example.studentmanagement.models.UserSelect;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +48,8 @@ import java.util.Locale;
 
 public class StudentList extends AppCompatActivity {
     RecyclerView recyclerView;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+
     ArrayList<Student> list;
 
     ArrayList<Student> listTmp;
@@ -57,12 +66,14 @@ public class StudentList extends AppCompatActivity {
 
     EditText search;
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(StudentList.this, AddStudent.class));
-        finish();
-    }
+    ImageButton btn_delete;
+
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        startActivity(new Intent(StudentList.this, AddStudent.class));
+//        finish();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,21 +125,8 @@ public class StudentList extends AppCompatActivity {
             }
         });
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Student student = dataSnapshot.getValue(Student.class);
-                    list.add(student);
-                }
-                studentAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        getAllStudent();
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +135,13 @@ public class StudentList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Manage Student");
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.toolbarManageUser)));
 
         btn_sort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +177,66 @@ public class StudentList extends AppCompatActivity {
         for(int i=0; i<list.size();i++){
             listTmp.add(list.get(i));
         }
+    }
+
+    private void getAllStudent(){
+        list.clear();
+        databaseReference = FirebaseDatabase.getInstance().getReference("students");
+
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Student tmp = snapshot.getValue(Student.class);
+                if(tmp != null){
+                      list.add(tmp);
+                }
+                studentAdapter.setData(list);
+                studentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Student afterEdit = snapshot.getValue(Student.class);
+
+                if(afterEdit == null || list == null || list.isEmpty()){
+                    return;
+                }
+
+                for(int i=0; i< list.size(); i++){
+                    Student tmp = list.get(i);
+                    if(tmp.getId().equals(afterEdit.getId())){
+                        list.set(i,afterEdit);
+                    }
+                }
+                studentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Student st = snapshot.getValue(Student.class);
+
+                if(st == null || list == null || list.isEmpty()){
+                    return;
+                }
+                for(int i=0; i< list.size(); i++){
+                    Student tmp = list.get(i);
+                    if(tmp.getId().equals(st.getId())){
+                        list.remove(list.get(i));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
