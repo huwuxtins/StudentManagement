@@ -1,13 +1,17 @@
 package com.example.studentmanagement.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studentmanagement.R;
 import com.example.studentmanagement.fragments.StudentDetailFragment;
 import com.example.studentmanagement.models.Student;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -23,6 +29,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     Context context;
     ArrayList<Student> students;
     FragmentManager fragmentManager;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
+
 
     public StudentAdapter(Context context, ArrayList<Student> students, FragmentManager fragmentManager) {
         this.context = context;
@@ -54,6 +64,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
             fragmentTransaction.replace(R.id.csl_students, studentDetailFragment);
             fragmentTransaction.commit();
         });
+
+        holder.btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogdeleteSelected(student.getName(), student.getId(),position);
+            }
+        });
     }
 
     @Override
@@ -61,13 +78,44 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         return students.size();
     }
 
+    public void DialogdeleteSelected(String name, String id, int pos){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Delete student ");
+        builder.setMessage(name+" "+id);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                database = FirebaseDatabase.getInstance();
+                myRef = database.getReference("students");
+                myRef.child(students.get(pos).getId()).removeValue();
+
+                students.remove(pos);
+                notifyItemRemoved(pos);
+
+
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name,txt_class;
-
+        ImageButton btn_del;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textname);
             txt_class = itemView.findViewById(R.id.txt_class);
+            btn_del = itemView.findViewById(R.id.btn_del);
         }
     }
 

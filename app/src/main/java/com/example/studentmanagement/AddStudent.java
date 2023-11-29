@@ -44,7 +44,6 @@ public class AddStudent extends AppCompatActivity {
         setContentView(R.layout.activity_add_student);
         btnAddStudent = findViewById(R.id.btnAddStudent);
         btnViewListStudent = findViewById(R.id.btn_import);
-        edtId = findViewById(R.id.edt_id);
         edtName = findViewById(R.id.edt_name);
         edtPhone = findViewById(R.id.edt_phone);
         edtClass = findViewById(R.id.edt_class);
@@ -90,14 +89,15 @@ public class AddStudent extends AppCompatActivity {
         Date bod = sdf.parse(edtBod.getText().toString());
         String gender = rbnMale.isChecked() ? "male" : "female";
 
-        Student student = new Student(name, bod, className, gender, phone, faculties, "", new ArrayList<>());
-        studentController.create(student, new StudentController.OnStudentCreatedListener() {
-            @Override
-            public void onStudentCreated(Student student) {
-                Toast.makeText(getApplicationContext(), "Add student successfully!", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(AddStudent.this,StudentList.class));
-            }
-        });
+            Student student = new Student(name, bod, className, gender, phone, faculties, "", new ArrayList<>());
+            studentController.create(student, new StudentController.OnStudentCreatedListener() {
+                @Override
+                public void onStudentCreated(Student student) {
+                    Toast.makeText(getApplicationContext(), "Add student successfully!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(AddStudent.this,StudentList.class));
+                }
+            });
+
     }
 
     @Override
