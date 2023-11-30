@@ -170,6 +170,43 @@ public class StudentList extends AppCompatActivity {
             }
         });
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(listSearch.size() != 0){
+                    listSearch.clear();
+                }
+                String key = search.getText().toString();
+
+                if(key.equals("")){
+                    studentAdapter.setData(list);
+                    studentAdapter.notifyDataSetChanged();
+                }
+                else{
+                    for(Student st : list){
+                        if(st.getId().contains(key)){
+                            listSearch.add(st);
+                        }
+                    }
+
+                    studentAdapter.setData(listSearch);
+                    studentAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+
+
 
     }
 
