@@ -45,6 +45,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 public class StudentList extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -105,7 +106,7 @@ public class StudentList extends AppCompatActivity {
                 directory.mkdirs();
             }
 
-            File file = new File(directory, "students.csv");
+            File file = new File(directory, "students" + UUID.randomUUID() + ".csv");
 
             try (FileWriter writer = new FileWriter(file)) {
                 writer.append("ID,Name,Date of Birth,Class,Gender,Phone Number,Faculties,Picture Link\n");
